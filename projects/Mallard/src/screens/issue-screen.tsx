@@ -77,6 +77,7 @@ import {
 import RNRestart from 'react-native-restart'
 import { deleteIssueFiles } from 'src/download-edition/clear-issues-and-editions'
 import { NewEditionCard } from 'src/components/onboarding/new-edition'
+import { useIsWeatherShown } from 'src/hooks/use-weather-provider'
 
 const styles = StyleSheet.create({
     emptyWeatherSpace: {
@@ -95,17 +96,13 @@ const styles = StyleSheet.create({
     },
 })
 
-const WEATHER_QUERY = gql('{ isWeatherShown @client }')
-const useIsWeatherShown = () => {
-    const query = useQuery<{ isWeatherShown: boolean }>(WEATHER_QUERY)
-    return !query.loading && query.data.isWeatherShown
-}
+const MOCK_QUERY = gql('{ wifiOnlyDownloads @client }')
 
-const useIsWeatherActuallyShown = () => {
-    const isWeatherShown = useIsWeatherShown()
+const checkWeatherShown = () => {
+    const { isWeatherShown } = useIsWeatherShown()
     const weatherResult = useQuery<WeatherQueryData>(
         // query must contain at least 1 item, even if we don't need it
-        isWeatherShown ? FULL_WEATHER_QUERY : WEATHER_QUERY,
+        isWeatherShown ? FULL_WEATHER_QUERY : MOCK_QUERY,
     )
     return getValidWeatherData(weatherResult) != null
 }
@@ -238,7 +235,7 @@ const IssueFronts = ({
     )
 
     useScrollToFrontBehavior(frontWithCards, initialFrontKey, ref)
-    const isWeatherActuallyShown = useIsWeatherActuallyShown()
+    const isWeatherShown = checkWeatherShown()
     const largeDeviceMemory = useLargeDeviceMemory()
     const flatListOptimisationProps = !largeDeviceMemory && {
         initialNumToRender: 2,
@@ -277,9 +274,7 @@ const IssueFronts = ({
                 length: card.height + SLIDER_FRONT_HEIGHT,
                 offset:
                     (card.height + SLIDER_FRONT_HEIGHT) * index +
-                    (isWeatherActuallyShown
-                        ? WEATHER_HEIGHT
-                        : EMPTY_WEATHER_HEIGHT),
+                    (isWeatherShown ? WEATHER_HEIGHT : EMPTY_WEATHER_HEIGHT),
                 index,
             })}
             keyExtractor={item => item.key}
@@ -351,8 +346,7 @@ const pathsAreEqual = (a: PathToIssue, b: PathToIssue) =>
     a.publishedIssueId === b.publishedIssueId
 
 const WeatherHeader = () => {
-    const isWeatherShown = useIsWeatherShown()
-
+    const { isWeatherShown } = useIsWeatherShown()
     if (!isWeatherShown) {
         return <View style={styles.emptyWeatherSpace} />
     }

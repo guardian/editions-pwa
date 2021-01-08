@@ -32,8 +32,6 @@ export const GDPR_SETTINGS_FRAGMENT = makeFragment(ALL_GDPR_SETTING_NAMES)
 const ALL_NAMES = [
     ...ALL_GDPR_SETTING_NAMES,
     'apiUrl',
-    'isWeatherShown',
-    'isUsingProdDevtools',
     'wifiOnlyDownloads',
     'maxAvailableEditions',
 ]

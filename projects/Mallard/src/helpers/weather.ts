@@ -1,6 +1,6 @@
 import { AccuWeatherLocation, Forecast } from 'src/common'
 import { AppState, Platform } from 'react-native'
-import ApolloClient from 'apollo-client'
+import { ApolloClient } from 'apollo-client'
 import Geolocation, {
     GeolocationResponse,
 } from '@react-native-community/geolocation'

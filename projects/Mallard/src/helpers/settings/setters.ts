@@ -37,9 +37,7 @@ export const setGdprFlag = (
     setSetting(name, client, value)
 }
 
-export const setIsWeatherShown = createSetter('isWeatherShown')
 export const setWifiOnlyDownloads = createSetter('wifiOnlyDownloads')
 export const setMaxAvailableEditions = createSetter('maxAvailableEditions')
 export const setApiUrl = createSetter('apiUrl')
 export const setGdprConsentVersion = createSetter(GDPR_CONSENT_VERSION)
-export const setIsUsingProdDevtools = createSetter('isUsingProdDevtools')

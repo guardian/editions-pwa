@@ -36,7 +36,7 @@ import {
 import { useIssueResponse } from 'src/hooks/use-issue'
 import { useIssueSummary } from 'src/hooks/use-issue-summary'
 import { useSetNavPosition } from 'src/hooks/use-nav-position'
-import { useIsUsingProdDevtools } from 'src/hooks/use-settings'
+import { useIsUsingProdDevTools } from 'src/hooks/use-config-provider'
 import { navigateToIssue } from 'src/navigation/helpers/base'
 import { routeNames } from 'src/navigation/routes'
 import { PathToIssue } from 'src/paths'
@@ -168,7 +168,7 @@ const IssueRowContainer = React.memo(
 )
 
 const IssueListFooter = ({ navigation }: NavigationInjectedProps) => {
-    const isUsingProdDevtools = useIsUsingProdDevtools()
+    const { isUsingProdDevTools } = useIsUsingProdDevTools()
     const { setIssueId } = useIssueSummary()
 
     return (
@@ -187,7 +187,7 @@ const IssueListFooter = ({ navigation }: NavigationInjectedProps) => {
                     {Copy.issueListFooter.manageDownloads}
                 </Button>
             </GridRowSplit>
-            {isUsingProdDevtools ? (
+            {isUsingProdDevTools ? (
                 <GridRowSplit>
                     <Button
                         accessibilityLabel="Go to the latest edition button"

@@ -18,7 +18,7 @@ import { locale } from 'src/helpers/locale'
 import { isInBeta, isInTestFlight } from 'src/helpers/release-stream'
 import { imageForScreenSize } from 'src/helpers/screen'
 import { ALL_SETTINGS_FRAGMENT } from 'src/helpers/settings/resolvers'
-import { setIsUsingProdDevtools } from 'src/helpers/settings/setters'
+import { useIsUsingProdDevTools } from 'src/hooks/use-config-provider'
 import { useQuery } from 'src/hooks/apollo'
 import { useNetInfo } from 'src/hooks/use-net-info'
 import { useToast } from 'src/hooks/use-toast'
@@ -57,6 +57,7 @@ const DevZone = withNavigation(({ navigation }: NavigationInjectedProps) => {
         isDevButtonShown: showNetInfoButton,
         setIsDevButtonShown: setShowNetInfoButton,
     } = useNetInfo()
+    const { setIsUsingProdDevTools } = useIsUsingProdDevTools()
     const [showAllEditions, setShowAllEditions] = useState(false)
 
     const onToggleShowAllEditions = () => {
@@ -76,7 +77,6 @@ const DevZone = withNavigation(({ navigation }: NavigationInjectedProps) => {
     const [imageSize, setImageSize] = useState('fetching...')
     const [pushTokens, setPushTokens] = useState('fetching...')
     const [downloadedIssues, setDownloadedIssues] = useState('fetching...')
-
     // initialise local showAllEditions property
     useEffect(() => {
         showAllEditionsCache.get().then(v => v != null && setShowAllEditions(v))
@@ -116,7 +116,7 @@ const DevZone = withNavigation(({ navigation }: NavigationInjectedProps) => {
         gql(`{ ${ALL_SETTINGS_FRAGMENT} }`),
     )
     if (query.loading) return null
-    const { data, client } = query
+    const { data } = query
     const { apiUrl } = data
     if (typeof apiUrl !== 'string') throw new Error('expected string')
 
@@ -247,7 +247,7 @@ const DevZone = withNavigation(({ navigation }: NavigationInjectedProps) => {
                         title: 'Hide this menu',
                         explainer: 'Tap the version 7 times to bring it back',
                         onPress: () => {
-                            setIsUsingProdDevtools(client, false)
+                            setIsUsingProdDevTools(false)
                         },
                     },
                     {

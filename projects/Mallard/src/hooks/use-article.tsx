@@ -1,10 +1,9 @@
 import React, { createContext, useContext, useState } from 'react'
 import { ArticlePillar, ArticleType, Appearance, Collection } from '../common'
 import { PillarColours } from '@guardian/pasteup/palette'
-import { useIsUsingProdDevtools } from './use-settings'
 import { DevTools } from 'src/hooks/article/dev-tools'
 import { getPillarColors } from 'src/helpers/transform'
-
+import { useIsUsingProdDevTools } from './use-config-provider'
 /*
   Exports
  */
@@ -46,9 +45,8 @@ const ProvidersAndDevtools = ({ type, pillar, children }: PropTypes) => {
 }
 
 export const WithArticle = (props: PropTypes) => {
-    const isUsingProdDevtools = useIsUsingProdDevtools()
-
-    if (isUsingProdDevtools) return <ProvidersAndDevtools {...props} />
+    const { isUsingProdDevTools } = useIsUsingProdDevTools()
+    if (isUsingProdDevTools) return <ProvidersAndDevtools {...props} />
     return <Providers {...props} />
 }
 

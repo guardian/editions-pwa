@@ -67,7 +67,7 @@ export interface GdprSettings {
 
 export interface DevSettings {
     apiUrl: string
-    isUsingProdDevtools: boolean
+    isUsingProdDevTools: boolean
     notificationServiceRegister: string
     cacheClearUrl: string
     deprecationWarningUrl: string

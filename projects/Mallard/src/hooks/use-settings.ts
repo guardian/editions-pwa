@@ -31,10 +31,3 @@ export const useIsProof = () => {
     const apiUrl = useApiUrl()
     return apiUrl && apiUrl.includes('proof')
 }
-
-const PROD_DEV_QUERY = gql('{ isUsingProdDevtools @client }')
-export const useIsUsingProdDevtools = () => {
-    const query = useQuery<{ isUsingProdDevtools: boolean }>(PROD_DEV_QUERY)
-    // FIXME: upstream code should be handling the loading status
-    return !query.loading && query.data.isUsingProdDevtools
-}

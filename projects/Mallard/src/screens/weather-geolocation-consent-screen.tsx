@@ -5,12 +5,12 @@ import { DefaultInfoTextWebview } from './settings/default-info-text-webview'
 import { useApolloClient } from '@apollo/react-hooks'
 import { metrics } from 'src/theme/spacing'
 import { html } from 'src/helpers/webview'
-import { setIsWeatherShown } from 'src/helpers/settings/setters'
 import { Button, ButtonAppearance } from 'src/components/Button/Button'
 import { requestLocationPermission } from 'src/helpers/location-permission'
 import { RESULTS } from 'react-native-permissions'
 import { getGeolocation } from 'src/helpers/weather'
 import { Copy } from 'src/helpers/words'
+import { useIsWeatherShown } from 'src/hooks/use-weather-provider'
 
 const styles = StyleSheet.create({
     button: {
@@ -34,6 +34,7 @@ const WeatherGeolocationConsentScreen = ({
     navigation,
 }: NavigationInjectedProps) => {
     const apolloClient = useApolloClient()
+    const { setIsWeatherShown } = useIsWeatherShown()
     const onConsentPress = async () => {
         const result = await requestLocationPermission(apolloClient)
         if (result === RESULTS.BLOCKED) {
@@ -65,8 +66,8 @@ const WeatherGeolocationConsentScreen = ({
             navigation.dismiss()
         }
     }
-    const onHidePress = () => {
-        setIsWeatherShown(apolloClient, false)
+    const onHidePress = (setIsWeatherShown: (setting: boolean) => void) => {
+        setIsWeatherShown(false)
         navigation.dismiss()
     }
 
@@ -87,7 +88,7 @@ const WeatherGeolocationConsentScreen = ({
                 </Button>
                 <Button
                     appearance={ButtonAppearance.skeletonBlue}
-                    onPress={onHidePress}
+                    onPress={() => onHidePress(setIsWeatherShown)}
                     style={styles.button}
                 >
                     {Copy.weather.cancelButton}

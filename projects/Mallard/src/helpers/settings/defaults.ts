@@ -104,7 +104,7 @@ const storeDetails = {
 
 export const defaultSettings: Settings = {
     apiUrl,
-    isUsingProdDevtools: false,
+    isUsingProdDevTools: false,
     gdprAllowEssential: true, // essential defaults to true and not switchable
     gdprAllowPerformance: null,
     gdprAllowFunctionality: null,

@@ -4,8 +4,9 @@ import DeviceInfo from 'react-native-device-info'
 import { Breakpoints } from 'src/theme/breakpoints'
 import { notificationsEnabledCache } from 'src/helpers/storage'
 import { errorService } from 'src/services/errors'
-
+import AsyncStorage from '@react-native-community/async-storage'
 const oneGB = 1073741824
+const USE_PRODDEVTOOL_KEY = '@use_proddevtool'
 
 interface ConfigState {
     largeDeviceMemeory: boolean
@@ -17,6 +18,8 @@ interface ConfigState {
     }
     notificationsEnabled: boolean
     setNotifications: (setting: boolean) => Promise<void>
+    isUsingProdDevTools: boolean
+    setIsUsingProdDevTools: (setting: boolean) => void
 }
 
 const notificationInitialState = () =>
@@ -32,6 +35,8 @@ const initialState: ConfigState = {
     },
     notificationsEnabled: notificationInitialState(),
     setNotifications: () => Promise.resolve(),
+    isUsingProdDevTools: false,
+    setIsUsingProdDevTools: () => {},
 }
 
 const ConfigContext = createContext(initialState)
@@ -53,9 +58,17 @@ export const notificationsAreEnabled = async () => {
 export const ConfigProvider = ({ children }: { children: React.ReactNode }) => {
     const [largeDeviceMemeory, setLargeDeviceMemory] = useState(false)
     const [dimensions, setDimensions] = useState(Dimensions.get('window'))
+    const [isUsingProdDevTools, setUsingProdDevTools] = useState(false)
     const [notificationsEnabled, setNotificationsEnabled] = useState(
         notificationInitialState(),
     )
+
+    const setIsUsingProdDevTools = (setting: boolean) => {
+        setUsingProdDevTools(setting)
+        AsyncStorage.setItem(USE_PRODDEVTOOL_KEY,
+            JSON.stringify(setting),
+        )
+    }
 
     const setNotifications = async (setting: boolean) => {
         try {
@@ -67,6 +80,14 @@ export const ConfigProvider = ({ children }: { children: React.ReactNode }) => {
             errorService.captureException(e)
         }
     }
+
+    useEffect(() => {
+        async function getProdDevToolSetting() {
+            const result = await AsyncStorage.getItem(USE_PRODDEVTOOL_KEY)
+            if (result) setUsingProdDevTools(JSON.parse(result))
+        }
+        getProdDevToolSetting()
+    }, [])
 
     useEffect(() => {
         notificationsAreEnabled().then(setting =>
@@ -117,6 +138,8 @@ export const ConfigProvider = ({ children }: { children: React.ReactNode }) => {
                 dimensions,
                 notificationsEnabled,
                 setNotifications,
+                isUsingProdDevTools,
+                setIsUsingProdDevTools,
             }}
         >
             {children}
@@ -132,4 +155,9 @@ export const useDimensions = () => useContext(ConfigContext).dimensions
 export const useNotificationsEnabled = () => ({
     notificationsEnabled: useContext(ConfigContext).notificationsEnabled,
     setNotifications: useContext(ConfigContext).setNotifications,
+})
+
+export const useIsUsingProdDevTools = () => ({
+    isUsingProdDevTools: useContext(ConfigContext).isUsingProdDevTools,
+    setIsUsingProdDevTools: useContext(ConfigContext).setIsUsingProdDevTools,
 })
