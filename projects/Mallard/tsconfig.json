@@ -12,6 +12,9 @@
         "baseUrl": ".",
         "resolveJsonModule": true
     },
+    "include": [
+        "."
+      ],
     "exclude": [
         "node_modules",
         "babel.config.js",
