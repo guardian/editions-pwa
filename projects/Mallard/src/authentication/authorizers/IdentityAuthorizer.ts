@@ -81,7 +81,7 @@ const authWithTokens = async (
 	);
 };
 
-export const getUserName = (authType: AuthType, params: AuthParams): string => {
+export const getUserName = (authType: AuthType, params: AuthParams) => {
 	const unknown = 'unknown';
 	switch (authType) {
 		case 'email':
