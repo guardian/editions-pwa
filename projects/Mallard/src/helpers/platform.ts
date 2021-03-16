@@ -1,4 +1,4 @@
-import { Platform } from 'react-native'
+import { Platform } from 'react-native';
 
 export const iosMajorVersion =
-    Platform.OS === 'ios' ? parseInt(Platform.Version as string, 10) : 0
+	Platform.OS === 'ios' ? parseInt(Platform.Version as string, 10) : 0;

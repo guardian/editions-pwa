@@ -1,6 +1,6 @@
 export interface SliderSection {
-    items: number
-    title: string
-    color: string
-    startIndex: number
+	items: number;
+	title: string;
+	color: string;
+	startIndex: number;
 }

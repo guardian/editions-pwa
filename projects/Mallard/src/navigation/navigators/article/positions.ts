@@ -1,5 +1,6 @@
-import { LayoutRectangle, Dimensions, View } from 'react-native'
-import { Article } from 'src/common'
+import type { LayoutRectangle, View } from 'react-native';
+import { Dimensions } from 'react-native';
+import type { Article } from 'src/common';
 
 /*
 TODO: Pass this via router options
@@ -18,43 +19,41 @@ b) animations in react in general are always a
    on screen?
 */
 
-export type ScreenPosition = LayoutRectangle
+export type ScreenPosition = LayoutRectangle;
 
-const positions: {
-    [key: string]: ScreenPosition
-} = {}
+const positions: Record<string, ScreenPosition> = {};
 
 const setScreenPositionOfItem = (
-    item: Article['key'],
-    position: ScreenPosition,
+	item: Article['key'],
+	position: ScreenPosition,
 ) => {
-    positions[item] = position
-}
+	positions[item] = position;
+};
 
 const setScreenPositionFromView = (key: Article['key'], item: View) => {
-    item.measureInWindow((x, y, width, height) => {
-        setScreenPositionOfItem(key, {
-            x,
-            y,
-            width,
-            height,
-        })
-    })
-}
+	item.measureInWindow((x, y, width, height) => {
+		setScreenPositionOfItem(key, {
+			x,
+			y,
+			width,
+			height,
+		});
+	});
+};
 
 const getScreenPositionOfItem = (item: Article['key']): ScreenPosition => {
-    if (positions[item]) return positions[item]
-    const { height, width } = Dimensions.get('window')
-    return {
-        x: 0,
-        y: height * 0.9,
-        width,
-        height,
-    }
-}
+	if (positions[item]) return positions[item];
+	const { height, width } = Dimensions.get('window');
+	return {
+		x: 0,
+		y: height * 0.9,
+		width,
+		height,
+	};
+};
 
 export {
-    getScreenPositionOfItem,
-    setScreenPositionOfItem,
-    setScreenPositionFromView,
-}
+	getScreenPositionOfItem,
+	setScreenPositionOfItem,
+	setScreenPositionFromView,
+};

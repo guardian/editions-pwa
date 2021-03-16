@@ -108,7 +108,24 @@ module.exports = {
         "@typescript-eslint/restrict-template-expressions": "off",
         "@typescript-eslint/no-var-requires": "off",
         "jsx-a11y/accessible-emoji": "off",
-        "@typescript-eslint/no-explicit-any": "off"
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/naming-convention": "off",
+        "eslint-comments/no-unused-disable": "off",
+        "@typescript-eslint/no-unnecessary-condition": "off",
+        "eqeqeq": "off",
+        "@typescript-eslint/prefer-nullish-coalescing": "off",
+        "eslint-comments/require-description": "off",
+        "@typescript-eslint/prefer-optional-chain": "off",
+        "@typescript-eslint/restrict-plus-operands": "off",
+        "@typescript-eslint/no-misused-promises": "off",
+        "@typescript-eslint/ban-ts-ignore": "off",
+        "@typescript-eslint/await-thenable": "off",
+        "react-hooks/exhaustive-deps": "off",
+        "max-len": "off",
+        "import/no-named-as-default": "off",
+        "@typescript-eslint/ban-ts-ignore": "off",
+        "@typescript-eslint/prefer-regexp-exe": "off",
+        
     },
     settings: {
         react: {

@@ -1,12 +1,13 @@
-import { useQuery as useApolloQuery } from '@apollo/react-hooks'
-import ApolloClient from 'apollo-client'
-import { DocumentNode } from 'graphql'
+import { useQuery as useApolloQuery } from '@apollo/react-hooks';
+import type ApolloClient from 'apollo-client';
+import type { DocumentNode } from 'graphql';
 
 export type QueryResult<Data> = (
-    | { loading: true }
-    | { loading: false; data: Data }) & {
-    client: ApolloClient<object>
-}
+	| { loading: true }
+	| { loading: false; data: Data }
+) & {
+	client: ApolloClient<object>;
+};
 
 /**
  * Light wrapper around Apollo own `useQuery` to directly throw errors (to be
@@ -18,24 +19,24 @@ export type QueryResult<Data> = (
  * `useQuery` will return the final data.
  */
 export const useQuery = <Data, Variables = undefined>(
-    query: DocumentNode,
-    variables?: Variables,
+	query: DocumentNode,
+	variables?: Variables,
 ): QueryResult<Data> => {
-    const { loading, error, data, client } = useApolloQuery(query, {
-        variables,
-    })
-    if (error != null) {
-        throw error
-    }
-    if (loading) {
-        return { loading: true, client }
-    }
-    if (data == null) {
-        throw new Error(
-            'Data returned by Apollo is empty, but it has finished loading. ' +
-                'This happens when trying to fetch a @client field that ' +
-                'has no resolver: https://github.com/apollographql/react-apollo/issues/1314',
-        )
-    }
-    return { loading: false, client, data }
-}
+	const { loading, error, data, client } = useApolloQuery(query, {
+		variables,
+	});
+	if (error != null) {
+		throw error;
+	}
+	if (loading) {
+		return { loading: true, client };
+	}
+	if (data == null) {
+		throw new Error(
+			'Data returned by Apollo is empty, but it has finished loading. ' +
+				'This happens when trying to fetch a @client field that ' +
+				'has no resolver: https://github.com/apollographql/react-apollo/issues/1314',
+		);
+	}
+	return { loading: false, client, data };
+};

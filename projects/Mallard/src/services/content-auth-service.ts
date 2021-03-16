@@ -1,12 +1,12 @@
-import DeviceInfo from 'react-native-device-info'
-import { CAS_ENDPOINT_URL } from '../constants'
-import { CASExpiry } from '../../../Apps/common/src/cas-expiry'
+import DeviceInfo from 'react-native-device-info';
+import type { CASExpiry } from '../../../Apps/common/src/cas-expiry';
+import { CAS_ENDPOINT_URL } from '../constants';
 
 interface CasErrorResponse {
-    error: {
-        message: string
-        code: number
-    }
+	error: {
+		message: string;
+		code: number;
+	};
 }
 
 /**
@@ -16,37 +16,37 @@ interface CasErrorResponse {
  * in order that re-authentication can use the cached credentials
  */
 const fetchCasSubscription = async (
-    subscriberID: string,
-    password: string,
+	subscriberID: string,
+	password: string,
 ): Promise<CASExpiry> => {
-    const appId = DeviceInfo.getBundleId()
-    const deviceId = DeviceInfo.getUniqueId()
+	const appId = DeviceInfo.getBundleId();
+	const deviceId = DeviceInfo.getUniqueId();
 
-    const res = await fetch(CAS_ENDPOINT_URL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            appId,
-            deviceId,
-            subscriberId: subscriberID,
-            password: password,
-        }),
-    })
+	const res = await fetch(CAS_ENDPOINT_URL, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			appId,
+			deviceId,
+			subscriberId: subscriberID,
+			password: password,
+		}),
+	});
 
-    const json = await res.json()
+	const json = await res.json();
 
-    if (res.status !== 200) {
-        const casErrorRes: CasErrorResponse = json
-        throw new Error(
-            casErrorRes.error
-                ? casErrorRes.error.message
-                : 'Something went wrong',
-        )
-    }
+	if (res.status !== 200) {
+		const casErrorRes: CasErrorResponse = json;
+		throw new Error(
+			casErrorRes.error
+				? casErrorRes.error.message
+				: 'Something went wrong',
+		);
+	}
 
-    return json.expiry
-}
+	return json.expiry;
+};
 
-export { fetchCasSubscription }
+export { fetchCasSubscription };

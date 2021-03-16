@@ -1,1 +1,1 @@
-export const dismissAt = 100
+export const dismissAt = 100;

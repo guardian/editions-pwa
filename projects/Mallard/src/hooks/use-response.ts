@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react';
 
 /*
 you can use response to store an async value
@@ -30,70 +30,70 @@ already be resolved)
 */
 
 export interface Error {
-    message: string
-    name?: string
+	message: string;
+	name?: string;
 }
 
 type Response<T> =
-    | {
-          state: 'pending'
-          staleResponse: T | null
-      }
-    | {
-          state: 'error'
-          error: Error
-          staleResponse: T | null
-      }
-    | {
-          state: 'success'
-          response: T
-      }
+	| {
+			state: 'pending';
+			staleResponse: T | null;
+	  }
+	| {
+			state: 'error';
+			error: Error;
+			staleResponse: T | null;
+	  }
+	| {
+			state: 'success';
+			response: T;
+	  };
 
 export interface ResponseHookCallbacks<T> {
-    onSuccess: (res: T) => void
-    onError: (error: Error) => void
-    onPending: () => void
+	onSuccess: (res: T) => void;
+	onError: (error: Error) => void;
+	onPending: () => void;
 }
 
 const useResponse = <T>(
-    initial: T | null,
+	initial: T | null,
 ): [Response<T>, ResponseHookCallbacks<T>] => {
-    const [response, setResponse] = useState<Response<T>>(
-        initial
-            ? {
-                  state: 'success',
-                  response: initial,
-              }
-            : {
-                  state: 'pending',
-                  staleResponse: null,
-              },
-    )
-    const onSuccess = (response: T) => {
-        setResponse({ state: 'success', response })
-    }
-    const onError = (error: Error) => {
-        setResponse({
-            state: 'error',
-            error,
-            staleResponse: 'response' in response ? response.response : null,
-        })
-    }
-    const onPending = () => {
-        setResponse({
-            state: 'pending',
-            staleResponse: 'response' in response ? response.response : null,
-        })
-    }
-    return [
-        response,
-        {
-            onSuccess,
-            onError,
-            onPending,
-        },
-    ]
-}
+	const [response, setResponse] = useState<Response<T>>(
+		initial
+			? {
+					state: 'success',
+					response: initial,
+			  }
+			: {
+					state: 'pending',
+					staleResponse: null,
+			  },
+	);
+	const onSuccess = (response: T) => {
+		setResponse({ state: 'success', response });
+	};
+	const onError = (error: Error) => {
+		setResponse({
+			state: 'error',
+			error,
+			staleResponse: 'response' in response ? response.response : null,
+		});
+	};
+	const onPending = () => {
+		setResponse({
+			state: 'pending',
+			staleResponse: 'response' in response ? response.response : null,
+		});
+	};
+	return [
+		response,
+		{
+			onSuccess,
+			onError,
+			onPending,
+		},
+	];
+};
 
 /*
 A response can be 'fetchable'. This type of
@@ -116,33 +116,33 @@ const response = useFetchableResponse<T>(
 */
 
 export type FetchableResponse<T> = Response<T> & {
-    retry: () => void
-}
+	retry: () => void;
+};
 
 const useFetchableResponse = <T>(
-    initial: T | null,
-    fetcher: (isInitial: boolean, callbacks: ResponseHookCallbacks<T>) => void,
-    effectDependencies: unknown[] = [],
+	initial: T | null,
+	fetcher: (isInitial: boolean, callbacks: ResponseHookCallbacks<T>) => void,
+	effectDependencies: unknown[] = [],
 ): FetchableResponse<T> => {
-    const [response, responseHookCallbacks] = useResponse(initial)
-    const retry = () => {
-        responseHookCallbacks.onPending()
-        fetcher(false, responseHookCallbacks)
-    }
+	const [response, responseHookCallbacks] = useResponse(initial);
+	const retry = () => {
+		responseHookCallbacks.onPending();
+		fetcher(false, responseHookCallbacks);
+	};
 
-    useEffect(() => {
-        if (!initial) {
-            responseHookCallbacks.onPending()
-        } else {
-            responseHookCallbacks.onSuccess(initial)
-        }
-        fetcher(true, responseHookCallbacks)
-    }, effectDependencies) // eslint-disable-line react-hooks/exhaustive-deps
+	useEffect(() => {
+		if (!initial) {
+			responseHookCallbacks.onPending();
+		} else {
+			responseHookCallbacks.onSuccess(initial);
+		}
+		fetcher(true, responseHookCallbacks);
+	}, effectDependencies);
 
-    return {
-        ...response,
-        retry,
-    }
-}
+	return {
+		...response,
+		retry,
+	};
+};
 
-export { useFetchableResponse, useResponse }
+export { useFetchableResponse, useResponse };

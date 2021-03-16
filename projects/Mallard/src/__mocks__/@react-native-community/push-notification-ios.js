@@ -1,5 +1,5 @@
 module.exports = {
-    FetchResult: {
-        NoData: null,
-    },
-}
+	FetchResult: {
+		NoData: null,
+	},
+};

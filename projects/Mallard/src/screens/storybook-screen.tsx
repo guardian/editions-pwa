@@ -1,3 +1,3 @@
-import Storybook from '../../storybook'
+import Storybook from '../../storybook';
 
-export default Storybook
+export default Storybook;

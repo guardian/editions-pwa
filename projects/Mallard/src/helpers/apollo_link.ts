@@ -8,13 +8,13 @@
  * needs to be specified.
  */
 export const NON_IMPLEMENTED_LINK = {
-    split: () => {
-        throw new Error('Not implemented. Did you forget to use `@client`?')
-    },
-    concat: () => {
-        throw new Error('not implemented Did you forget to use `@client`?')
-    },
-    request: () => {
-        throw new Error('not implemented Did you forget to use `@client`?')
-    },
-}
+	split: () => {
+		throw new Error('Not implemented. Did you forget to use `@client`?');
+	},
+	concat: () => {
+		throw new Error('not implemented Did you forget to use `@client`?');
+	},
+	request: () => {
+		throw new Error('not implemented Did you forget to use `@client`?');
+	},
+};

@@ -1,5 +1,5 @@
-import AsyncStorage from '@react-native-community/async-storage'
-import { defaultSettings } from './settings/defaults'
+import AsyncStorage from '@react-native-community/async-storage';
+import { defaultSettings } from './settings/defaults';
 
 /**
  * History of Consent Management
@@ -12,139 +12,139 @@ import { defaultSettings } from './settings/defaults'
  * v6 - Add Crashlytics in PERFORMANCE, update wording in ESSENTIAL
  * v7 - Remove Braze from wording in ESSENTIAL
  */
-export const CURRENT_CONSENT_VERSION = 7
+export const CURRENT_CONSENT_VERSION = 7;
 
 export interface GdprDefaultSettings {
-    gdprAllowEssential: boolean
+	gdprAllowEssential: boolean;
 }
 
 /*
 Consent switches can be 'unset' or null
 */
-export type GdprSwitchSetting = null | boolean
+export type GdprSwitchSetting = null | boolean;
 export interface GdprSwitchSettings {
-    gdprAllowPerformance: GdprSwitchSetting
-    gdprAllowFunctionality: GdprSwitchSetting
+	gdprAllowPerformance: GdprSwitchSetting;
+	gdprAllowFunctionality: GdprSwitchSetting;
 }
 
-export const SETTINGS_KEY_PREFIX = '@Setting_'
+export const SETTINGS_KEY_PREFIX = '@Setting_';
 
-export const gdprAllowEssentialKey = 'gdprAllowEssential'
-export const gdprAllowPerformanceKey = 'gdprAllowPerformance'
-export const gdprAllowFunctionalityKey = 'gdprAllowFunctionality'
+export const gdprAllowEssentialKey = 'gdprAllowEssential';
+export const gdprAllowPerformanceKey = 'gdprAllowPerformance';
+export const gdprAllowFunctionalityKey = 'gdprAllowFunctionality';
 
-export const gdprConsentVersionKey = 'gdprConsentVersion'
+export const gdprConsentVersionKey = 'gdprConsentVersion';
 
 export type GDPRBucketKeys =
-    | 'gdprAllowEssential'
-    | 'gdprAllowPerformance'
-    | 'gdprAllowFunctionality'
-    | 'gdprConsentVersion'
-type GDPRBucket = { [K in GDPRBucketKeys]: (keyof GdprSettings)[] }
+	| 'gdprAllowEssential'
+	| 'gdprAllowPerformance'
+	| 'gdprAllowFunctionality'
+	| 'gdprConsentVersion';
+type GDPRBucket = { [K in GDPRBucketKeys]: Array<keyof GdprSettings> };
 
-export const gdprSwitchSettings: (keyof GdprSwitchSettings)[] = [
-    gdprAllowPerformanceKey,
-    gdprAllowFunctionalityKey,
-]
+export const gdprSwitchSettings: Array<keyof GdprSwitchSettings> = [
+	gdprAllowPerformanceKey,
+	gdprAllowFunctionalityKey,
+];
 
 export const GdprBuckets: GDPRBucket = {
-    gdprAllowEssential: ['gdprAllowOphan'],
-    gdprAllowPerformance: ['gdprAllowSentry'],
-    gdprAllowFunctionality: ['gdprAllowGoogleLogin', 'gdprAllowFacebookLogin'],
-    gdprConsentVersion: ['gdprConsentVersion'],
-}
+	gdprAllowEssential: ['gdprAllowOphan'],
+	gdprAllowPerformance: ['gdprAllowSentry'],
+	gdprAllowFunctionality: ['gdprAllowGoogleLogin', 'gdprAllowFacebookLogin'],
+	gdprConsentVersion: ['gdprConsentVersion'],
+};
 
 export interface GdprSettings {
-    gdprConsentVersion: null | number
-    // 'essential' purpose:
-    gdprAllowOphan: GdprSwitchSetting
-    // 'performance' purpose:
-    gdprAllowSentry: GdprSwitchSetting
-    // 'functionality' purpose:
-    gdprAllowGoogleLogin: GdprSwitchSetting
-    gdprAllowFacebookLogin: GdprSwitchSetting
+	gdprConsentVersion: null | number;
+	// 'essential' purpose:
+	gdprAllowOphan: GdprSwitchSetting;
+	// 'performance' purpose:
+	gdprAllowSentry: GdprSwitchSetting;
+	// 'functionality' purpose:
+	gdprAllowGoogleLogin: GdprSwitchSetting;
+	gdprAllowFacebookLogin: GdprSwitchSetting;
 }
 
 export interface DevSettings {
-    apiUrl: string
-    isUsingProdDevtools: boolean
-    notificationServiceRegister: string
-    cacheClearUrl: string
-    deprecationWarningUrl: string
-    editionsUrl: string
-    storeDetails: {
-        ios: string
-        android: string
-    }
-    websiteUrl: string
-    issuesPath: string
-    senderId: string
-    logging: string
-    appsRenderingService: string
-    isAppsRendering: boolean
+	apiUrl: string;
+	isUsingProdDevtools: boolean;
+	notificationServiceRegister: string;
+	cacheClearUrl: string;
+	deprecationWarningUrl: string;
+	editionsUrl: string;
+	storeDetails: {
+		ios: string;
+		android: string;
+	};
+	websiteUrl: string;
+	issuesPath: string;
+	senderId: string;
+	logging: string;
+	appsRenderingService: string;
+	isAppsRendering: boolean;
 }
 
 interface UserSettings {
-    isWeatherShown: boolean
-    wifiOnlyDownloads: boolean
-    maxAvailableEditions: number
+	isWeatherShown: boolean;
+	wifiOnlyDownloads: boolean;
+	maxAvailableEditions: number;
 }
 
 export interface Settings
-    extends GdprSwitchSettings,
-        GdprDefaultSettings,
-        GdprSettings,
-        UserSettings,
-        DevSettings {}
+	extends GdprSwitchSettings,
+		GdprDefaultSettings,
+		GdprSettings,
+		UserSettings,
+		DevSettings {}
 
 /*
 we can only store strings to memory
 so we need to convert them
 */
-export type UnsanitizedSetting = Settings[keyof Settings]
+export type UnsanitizedSetting = Settings[keyof Settings];
 const sanitize = (value: UnsanitizedSetting): string => {
-    if (typeof value !== 'string') {
-        return JSON.stringify(value)
-    }
-    return value
-}
+	if (typeof value !== 'string') {
+		return JSON.stringify(value);
+	}
+	return value;
+};
 const unsanitize = (value: string): UnsanitizedSetting => {
-    try {
-        return JSON.parse(value)
-    } catch {
-        return value
-    }
-}
+	try {
+		return JSON.parse(value);
+	} catch {
+		return value;
+	}
+};
 
 export const getSetting = <S extends keyof Settings>(
-    setting: S,
+	setting: S,
 ): Promise<Settings[S]> =>
-    AsyncStorage.getItem(SETTINGS_KEY_PREFIX + setting).then(item => {
-        if (!item) {
-            return defaultSettings[setting]
-        }
-        return unsanitize(item) as Settings[S]
-    })
+	AsyncStorage.getItem(SETTINGS_KEY_PREFIX + setting).then((item) => {
+		if (!item) {
+			return defaultSettings[setting];
+		}
+		return unsanitize(item) as Settings[S];
+	});
 
 export const storeSetting = (
-    setting: keyof Settings,
-    value: UnsanitizedSetting,
-) => AsyncStorage.setItem(SETTINGS_KEY_PREFIX + setting, sanitize(value))
+	setting: keyof Settings,
+	value: UnsanitizedSetting,
+) => AsyncStorage.setItem(SETTINGS_KEY_PREFIX + setting, sanitize(value));
 
-export type GdprSwitch = keyof GdprSwitchSettings
+export type GdprSwitch = keyof GdprSwitchSettings;
 
 export const withConsent = async <T>(
-    consentSwitch: GdprSwitch | null, // false allows conditionally ignoring consent
-    {
-        allow,
-        deny,
-    }: {
-        allow: () => T
-        deny: (wasSet: boolean) => T
-    },
-    getSettingImpl = getSetting,
+	consentSwitch: GdprSwitch | null, // false allows conditionally ignoring consent
+	{
+		allow,
+		deny,
+	}: {
+		allow: () => T;
+		deny: (wasSet: boolean) => T;
+	},
+	getSettingImpl = getSetting,
 ) => {
-    if (!consentSwitch) return allow()
-    const allowed = await getSettingImpl(consentSwitch)
-    return allowed ? allow() : deny(allowed === false)
-}
+	if (!consentSwitch) return allow();
+	const allowed = await getSettingImpl(consentSwitch);
+	return allowed ? allow() : deny(allowed === false);
+};

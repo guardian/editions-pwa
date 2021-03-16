@@ -1,16 +1,16 @@
-import { baseTests } from './SliderTitle-BaseTests'
+import { baseTests } from './SliderTitle-BaseTests';
 
 jest.mock('react-native-device-info', () => ({
-    isTablet: () => false,
-}))
+	isTablet: () => false,
+}));
 
 jest.mock('react-native/Libraries/Utilities/Dimensions', () => {
-    const Dimensions = {
-        get: () => {
-            return { width: 400, height: 100 }
-        },
-    }
-    return Dimensions
-})
+	const Dimensions = {
+		get: () => {
+			return { width: 400, height: 100 };
+		},
+	};
+	return Dimensions;
+});
 
-baseTests('SliderTitle - iOS - Mobile')
+baseTests('SliderTitle - iOS - Mobile');

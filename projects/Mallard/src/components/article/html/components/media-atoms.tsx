@@ -1,6 +1,6 @@
-import { MediaAtomElement, Direction } from 'src/common'
-import { Arrow } from './arrow'
-import { css, html } from 'src/helpers/webview'
+import { MediaAtomElement, Direction } from 'src/common';
+import { Arrow } from './arrow';
+import { css, html } from 'src/helpers/webview';
 
 /**
  * 56.25% is the perfect 16:9 ratio that matches most videos (ex. YouTube).
@@ -16,44 +16,44 @@ import { css, html } from 'src/helpers/webview'
  * iframe in an `absolute` fashion.
  */
 export const mediaAtomStyles = css`
-    .mediaWrapper {
-        width: 100%;
-        height: 0;
-        padding-top: 56.25%;
-        position: relative;
-        background: #eee;
-    }
+	.mediaWrapper {
+		width: 100%;
+		height: 0;
+		padding-top: 56.25%;
+		position: relative;
+		background: #eee;
+	}
 
-    .mediaIframe {
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
-`
-export const EMBED_DOMAIN = 'https://embed.theguardian.com'
+	.mediaIframe {
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+`;
+export const EMBED_DOMAIN = 'https://embed.theguardian.com';
 
 export const renderMediaAtom = (mediaAtomElement: MediaAtomElement) => {
-    return html`
-        <figure class="image" style="overflow: hidden;">
-            <div class="mediaWrapper">
-                <iframe
-                    scrolling="no"
-                    src="${EMBED_DOMAIN}/embed/atom/media/${mediaAtomElement.atomId}#noadsaf"
-                    class="mediaIframe"
-                    frameborder="0"
-                ></iframe>
-            </div>
-            ${mediaAtomElement.title
-                ? html`
-                      <figcaption>
-                          ${Arrow({ direction: Direction.top })}
-                          ${mediaAtomElement.title}
-                      </figcaption>
-                  `
-                : ''}
-        </figure>
-    `
-}
+	return html`
+		<figure class="image" style="overflow: hidden;">
+			<div class="mediaWrapper">
+				<iframe
+					scrolling="no"
+					src="${EMBED_DOMAIN}/embed/atom/media/${mediaAtomElement.atomId}#noadsaf"
+					class="mediaIframe"
+					frameborder="0"
+				></iframe>
+			</div>
+			${mediaAtomElement.title
+				? html`
+						<figcaption>
+							${Arrow({ direction: Direction.top })}
+							${mediaAtomElement.title}
+						</figcaption>
+				  `
+				: ''}
+		</figure>
+	`;
+};

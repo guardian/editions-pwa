@@ -1,104 +1,104 @@
-export type Connectivity = 'online' | 'offline'
+export type Connectivity = 'online' | 'offline';
 
-type NotRun = { type: 'not-run-attempt' }
+type NotRun = { type: 'not-run-attempt' };
 
 export type TValidAttempt<T> = {
-    type: 'valid-attempt'
-    data: T
-    connectivity: Connectivity
-    time: number
-}
+	type: 'valid-attempt';
+	data: T;
+	connectivity: Connectivity;
+	time: number;
+};
 
 export type TInvalidAttempt = {
-    type: 'invalid-attempt'
-    reason?: string
-    connectivity: Connectivity
-    time: number
-}
+	type: 'invalid-attempt';
+	reason?: string;
+	connectivity: Connectivity;
+	time: number;
+};
 
 export type TErrorAttempt = {
-    type: 'error-attempt'
-    reason?: string
-    connectivity: Connectivity
-    time: number
-}
+	type: 'error-attempt';
+	reason?: string;
+	connectivity: Connectivity;
+	time: number;
+};
 
 export type ResolvedAttempt<T> =
-    | TValidAttempt<T>
-    | TInvalidAttempt
-    | TErrorAttempt
+	| TValidAttempt<T>
+	| TInvalidAttempt
+	| TErrorAttempt;
 
-export type AnyAttempt<T> = NotRun | ResolvedAttempt<T>
+export type AnyAttempt<T> = NotRun | ResolvedAttempt<T>;
 
 const withConnectivity = <T>(
-    connectivity: Connectivity,
-    handlers: { [K in Connectivity]: () => T },
+	connectivity: Connectivity,
+	handlers: { [K in Connectivity]: () => T },
 ): T => {
-    switch (connectivity) {
-        case 'online': {
-            return handlers.online()
-        }
-        case 'offline': {
-            return handlers.offline()
-        }
-        default: {
-            const x: never = connectivity
-            return x
-        }
-    }
-}
+	switch (connectivity) {
+		case 'online': {
+			return handlers.online();
+		}
+		case 'offline': {
+			return handlers.offline();
+		}
+		default: {
+			const x: never = connectivity;
+			return x;
+		}
+	}
+};
 
 const NotRunRef: NotRun = {
-    type: 'not-run-attempt',
-}
+	type: 'not-run-attempt',
+};
 
 const InvalidAttemptCons = (
-    connectivity: Connectivity,
-    reason?: string,
-    time = Date.now(),
+	connectivity: Connectivity,
+	reason?: string,
+	time = Date.now(),
 ): TInvalidAttempt => ({
-    type: 'invalid-attempt',
-    reason,
-    connectivity,
-    time,
-})
+	type: 'invalid-attempt',
+	reason,
+	connectivity,
+	time,
+});
 
 const ValidAttemptCons = <T>(
-    data: T,
-    connectivity: Connectivity,
-    time = Date.now(),
+	data: T,
+	connectivity: Connectivity,
+	time = Date.now(),
 ): TValidAttempt<T> => ({
-    type: 'valid-attempt',
-    connectivity,
-    data,
-    time,
-})
+	type: 'valid-attempt',
+	connectivity,
+	data,
+	time,
+});
 
 const ErrorAttemptCons = <T>(
-    connectivity: Connectivity,
-    reason?: string,
-    time = Date.now(),
+	connectivity: Connectivity,
+	reason?: string,
+	time = Date.now(),
 ): TErrorAttempt => ({
-    type: 'error-attempt',
-    reason,
-    connectivity,
-    time,
-})
+	type: 'error-attempt',
+	reason,
+	connectivity,
+	time,
+});
 
 const isNotRun = <T>(attempt: AnyAttempt<T>): attempt is NotRun =>
-    attempt.type === 'not-run-attempt'
+	attempt.type === 'not-run-attempt';
 
 const hasRun = <T>(attempt: AnyAttempt<T>): attempt is ResolvedAttempt<T> =>
-    !isNotRun(attempt)
+	!isNotRun(attempt);
 
 const isValid = <T>(attempt: AnyAttempt<T>): attempt is TValidAttempt<T> =>
-    attempt.type === 'valid-attempt'
+	attempt.type === 'valid-attempt';
 
 const isError = <T>(attempt: AnyAttempt<T>): attempt is TErrorAttempt =>
-    attempt.type === 'error-attempt'
+	attempt.type === 'error-attempt';
 
 const isOnline = <T>(attempt: ResolvedAttempt<T>) =>
-    attempt.connectivity === 'online'
+	attempt.connectivity === 'online';
 
 /**
  * As mentioned in the comments for the AccessController
@@ -106,34 +106,34 @@ const isOnline = <T>(attempt: ResolvedAttempt<T>) =>
  * (the access controller talks of "upgrading", this is the opposite)
  */
 const isDowngrading = <T>(
-    prev: ResolvedAttempt<T>,
-    curr: ResolvedAttempt<T>,
+	prev: ResolvedAttempt<T>,
+	curr: ResolvedAttempt<T>,
 ) => {
-    if (isOnline(prev)) {
-        return !isOnline(curr) || (isValid(prev) && !isValid(curr))
-    }
-    return !isOnline(curr) && isValid(prev) && !isValid(curr)
-}
+	if (isOnline(prev)) {
+		return !isOnline(curr) || (isValid(prev) && !isValid(curr));
+	}
+	return !isOnline(curr) && isValid(prev) && !isValid(curr);
+};
 
 const patchAttempt = <T, P extends AnyAttempt<T>, C extends AnyAttempt<T>>(
-    prev: P,
-    curr: C,
+	prev: P,
+	curr: C,
 ): C | null => {
-    if (!hasRun(prev)) return curr
-    if (!hasRun(curr)) return null
-    return isDowngrading(prev, curr) ? null : curr
-}
+	if (!hasRun(prev)) return curr;
+	if (!hasRun(curr)) return null;
+	return isDowngrading(prev, curr) ? null : curr;
+};
 
 export {
-    withConnectivity,
-    NotRunRef as NotRun,
-    ValidAttemptCons as ValidAttempt,
-    InvalidAttemptCons as InvalidAttempt,
-    ErrorAttemptCons as ErrorAttempt,
-    isValid,
-    isError,
-    isOnline,
-    hasRun,
-    isNotRun,
-    patchAttempt,
-}
+	withConnectivity,
+	NotRunRef as NotRun,
+	ValidAttemptCons as ValidAttempt,
+	InvalidAttemptCons as InvalidAttempt,
+	ErrorAttemptCons as ErrorAttempt,
+	isValid,
+	isError,
+	isOnline,
+	hasRun,
+	isNotRun,
+	patchAttempt,
+};

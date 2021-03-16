@@ -1,5 +1,5 @@
 declare module '@react-native-community/push-notification-ios' {
-    const a: any
+	const a: any;
 
-    export default a
+	export default a;
 }

@@ -1,1 +1,1 @@
-export const sidebarWidth = 360
+export const sidebarWidth = 360;
