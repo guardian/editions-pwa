@@ -42,6 +42,7 @@ const setScreenPositionFromView = (key: Article['key'], item: View) => {
 };
 
 const getScreenPositionOfItem = (item: Article['key']): ScreenPosition => {
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	if (positions[item]) return positions[item];
 	const { height, width } = Dimensions.get('window');
 	return {

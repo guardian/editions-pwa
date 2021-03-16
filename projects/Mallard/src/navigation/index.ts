@@ -60,7 +60,8 @@ const navOptionsWithGraunHeader = {
 	headerTintColor: color.textOverPrimary,
 };
 
-/* The screens you add to IOS_MODAL_ROUTES will have the modal transition. I.e they will slide up from the bottom. */
+/* The screens you add to IOS_MODAL_ROUTES will have the modal
+ transition. I.e they will slide up from the bottom. */
 const IOS_MODAL_ROUTES = [
 	routeNames.onboarding.PrivacyPolicyInline,
 	routeNames.onboarding.OnboardingConsentInline,
@@ -73,8 +74,7 @@ const dynamicModalTransition = (
 	const isModal = IOS_MODAL_ROUTES.some(
 		(screenName) =>
 			screenName === transitionProps.scene.route.routeName ||
-			(prevTransitionProps &&
-				screenName === prevTransitionProps.scene.route.routeName),
+			screenName === prevTransitionProps.scene.route.routeName,
 	);
 
 	return StackViewTransitionConfigs.defaultTransitionConfig(
@@ -185,10 +185,10 @@ type OnboardingQueryData = {
 };
 
 const hasOnboarded = (data: OnboardingQueryData) =>
-	data.gdprAllowEssential != null &&
-	data.gdprAllowFunctionality != null &&
-	data.gdprAllowPerformance != null &&
-	data.gdprConsentVersion == CURRENT_CONSENT_VERSION;
+	data.gdprAllowEssential &&
+	data.gdprAllowFunctionality &&
+	data.gdprAllowPerformance &&
+	data.gdprConsentVersion === CURRENT_CONSENT_VERSION;
 
 const RootNavigator = createAppContainer(
 	createStackNavigator(

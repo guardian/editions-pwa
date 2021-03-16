@@ -25,7 +25,6 @@ const getNavigationOptions = (
 	navigation: NavigationParams,
 	options: NavOrFn,
 ): NavigationOptions => {
-	if (!options) return {};
 	if (typeof options === 'function') {
 		return options({ navigation });
 	}
@@ -51,7 +50,7 @@ const addStaticRouterWithHeader = (
 			options.showHeaderRight !== undefined
 				? options.showHeaderRight
 				: false;
-		const title = options.title || navigation.state.routeName;
+		const title = options.title ?? navigation.state.routeName;
 
 		return (
 			<>

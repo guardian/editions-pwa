@@ -73,7 +73,6 @@ const getArticleNavigationProps = (
 	const articleNavigator = navigation.getParam('articleNavigator', []);
 
 	if (
-		!path ||
 		!path.article ||
 		!path.collection ||
 		!path.localIssueId ||
