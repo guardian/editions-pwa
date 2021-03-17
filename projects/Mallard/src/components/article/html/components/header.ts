@@ -1,27 +1,29 @@
-import { Platform, Dimensions } from 'react-native';
-import { ArticleType, HeaderType, Image as ImageT, Issue } from 'src/common';
+import { palette } from '@guardian/pasteup/palette';
+import { Dimensions, Platform } from 'react-native';
+import type { Image as ImageT, Issue } from 'src/common';
+import { ArticleType, HeaderType } from 'src/common';
+import { getPillarColors } from 'src/helpers/transform';
 import { css, html, px } from 'src/helpers/webview';
-import { GetImagePath } from 'src/hooks/use-image-paths';
+import type { GetImagePath } from 'src/hooks/use-image-paths';
 import { Breakpoints } from 'src/theme/breakpoints';
 import { color } from 'src/theme/color';
 import { metrics } from 'src/theme/spacing';
 import { families } from 'src/theme/typography';
-import {
+import type {
 	Article,
+	ArticlePillar,
 	CreditedImage,
 	MediaAtomElement,
-	ArticlePillar,
 } from '../../../../../../Apps/common/src';
-import { CssProps, themeColors } from '../helpers/css';
+import type { CssProps } from '../helpers/css';
+import { themeColors } from '../helpers/css';
 import { breakSides } from '../helpers/layout';
 import { getHeadline } from './headline';
+import { getByLineText } from './helpers/getBylineText';
 import { Line } from './line';
 import { renderMediaAtom } from './media-atoms';
 import { Rating } from './rating';
 import { SportScore } from './sport-score';
-import { getByLineText } from './helpers/getBylineText';
-import { palette } from '@guardian/pasteup/palette';
-import { getPillarColors } from 'src/helpers/transform';
 
 export interface ArticleHeaderProps {
 	headline: string;

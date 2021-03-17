@@ -1,6 +1,6 @@
+import type { PillarColoursWithTint } from 'src/helpers/transform';
 import { css } from 'src/helpers/webview';
 import { color } from 'src/theme/color';
-import { PillarColoursWithTint } from 'src/helpers/transform';
 
 const bulletStyle = () => css`
 	display: inline-block;

@@ -3,10 +3,7 @@ module.exports = {
     extends: [
         "plugin:react/recommended",
         "plugin:jsx-a11y/recommended",
-        "plugin:prettier/recommended",
-        "@guardian/eslint-config-typescript",
     ],
-    plugins: ["prettier"],
     parserOptions: {
         // Allows for the parsing of modern ECMAScript features
         ecmaVersion: 2018,
@@ -130,7 +127,8 @@ module.exports = {
         "max-len": "off",
         "eqeqeq": "off",
         "no-fallthrough": "off",
-        "no-async-promise-executor": "off"
+        "no-async-promise-executor": "off",
+        "@typescript-eslint/no-unnecessary-type-arguments": "off"
     },
     settings: {
         react: {
@@ -138,5 +136,4 @@ module.exports = {
             version: "detect",
         },
     },
-    root: true,
 };

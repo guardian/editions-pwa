@@ -3,7 +3,7 @@ import { Breakpoints } from 'src/theme/breakpoints';
 import { color } from 'src/theme/color';
 import { metrics } from 'src/theme/spacing';
 import { families } from 'src/theme/typography';
-import { CssProps } from '../helpers/css';
+import type { CssProps } from '../helpers/css';
 import { Quotes } from './icon/quotes';
 
 const BubblePointer = () => html`

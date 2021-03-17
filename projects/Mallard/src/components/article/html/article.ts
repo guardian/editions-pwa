@@ -1,29 +1,24 @@
+import { getPillarColors } from 'src/helpers/transform';
 import { html, makeHtml } from 'src/helpers/webview';
-import {
+import type { GetImagePath } from 'src/hooks/use-image-paths';
+import type { Content, Image as TImage } from '../../../../../Apps/common/src';
+import type {
 	ArticlePillar,
-	ArticleType,
-	HeaderType,
 	BlockElement,
 	CAPIArticle,
 	ImageSize,
 	Issue,
 } from '../../../common';
-import {
-	Header,
-	ArticleHeaderProps,
-	HeaderShowcase,
-	HeaderInterview,
-} from './components/header';
+import { ArticleType, HeaderType } from '../../../common';
+import { getLightboxImages } from '../types/article';
+import type { ArticleHeaderProps } from './components/header';
+import { Header, HeaderInterview, HeaderShowcase } from './components/header';
 import { Image } from './components/images';
 import { Line } from './components/line';
+import { renderMediaAtom } from './components/media-atoms';
 import { Pullquote } from './components/pull-quote';
 import { TwitterEmbed } from './components/twitter-embed';
 import { makeCss } from './css';
-import { renderMediaAtom } from './components/media-atoms';
-import { GetImagePath } from 'src/hooks/use-image-paths';
-import { Image as TImage, Content } from '../../../../../Apps/common/src';
-import { getPillarColors } from 'src/helpers/transform';
-import { getLightboxImages } from '../types/article';
 
 interface ArticleContentProps {
 	showMedia: boolean;

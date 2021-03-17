@@ -1,6 +1,6 @@
+import { Direction } from 'src/common';
 import { html } from 'src/helpers/webview';
 import { color } from 'src/theme/color';
-import { Direction } from 'src/common';
 
 const Arrow = ({ fill = color.text, direction = Direction.top } = {}) => html`
 	<svg

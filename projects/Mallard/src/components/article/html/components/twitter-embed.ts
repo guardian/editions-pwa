@@ -1,4 +1,4 @@
-import { html, css } from 'src/helpers/webview';
+import { css, html } from 'src/helpers/webview';
 import { color } from 'src/theme/color';
 
 // https://developer.twitter.com/en/docs/twitter-for-websites/javascript-api/guides/set-up-twitter-for-websites

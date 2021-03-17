@@ -1,6 +1,7 @@
-import { MediaAtomElement, Direction } from 'src/common';
-import { Arrow } from './arrow';
+import type { MediaAtomElement } from 'src/common';
+import { Direction } from 'src/common';
 import { css, html } from 'src/helpers/webview';
+import { Arrow } from './arrow';
 
 /**
  * 56.25% is the perfect 16:9 ratio that matches most videos (ex. YouTube).

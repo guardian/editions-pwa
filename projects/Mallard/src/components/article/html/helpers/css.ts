@@ -1,6 +1,6 @@
-import { ArticleTheme } from '../article';
+import type { PillarColoursWithTint } from 'src/helpers/transform';
 import { color } from 'src/theme/color';
-import { PillarColoursWithTint } from 'src/helpers/transform';
+import { ArticleTheme } from '../article';
 
 export interface CssProps {
 	colors: PillarColoursWithTint;

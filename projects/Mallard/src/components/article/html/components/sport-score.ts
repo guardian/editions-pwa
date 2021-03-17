@@ -2,7 +2,7 @@ import { css, html, px } from 'src/helpers/webview';
 import { color } from 'src/theme/color';
 import { metrics } from 'src/theme/spacing';
 import { families } from 'src/theme/typography';
-import { CssProps } from '../helpers/css';
+import type { CssProps } from '../helpers/css';
 
 export const sportScoreStyles = (
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars

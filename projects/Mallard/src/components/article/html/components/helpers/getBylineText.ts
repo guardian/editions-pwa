@@ -1,5 +1,5 @@
-import { ArticleHeaderProps } from '../header';
 import { ArticleType, HeaderType } from 'src/common';
+import type { ArticleHeaderProps } from '../header';
 
 const getByLineText = (
 	headerType: HeaderType,

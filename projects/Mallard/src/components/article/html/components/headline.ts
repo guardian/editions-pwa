@@ -1,6 +1,7 @@
+import type { ArticlePillar } from 'src/common';
+import { ArticleType, HeaderType } from 'src/common';
 import { html } from 'src/helpers/webview';
-import { HeaderType, ArticleType, ArticlePillar } from 'src/common';
-import { ArticleHeaderProps } from './header';
+import type { ArticleHeaderProps } from './header';
 import { Quotes } from './icon/quotes';
 
 const getHeadline = (

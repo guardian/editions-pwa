@@ -1,7 +1,8 @@
 import { css, html, px } from 'src/helpers/webview';
 import { Breakpoints } from 'src/theme/breakpoints';
 import { metrics } from 'src/theme/spacing';
-import { CssProps, themeColors } from '../helpers/css';
+import type { CssProps } from '../helpers/css';
+import { themeColors } from '../helpers/css';
 
 export const lineStyles = ({ theme }: CssProps) => css`
 	@media (min-width: ${px(Breakpoints.tabletVertical)}) {

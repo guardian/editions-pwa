@@ -1,24 +1,25 @@
+import { Platform } from 'react-native';
+import { ArticleType } from 'src/common';
 import {
 	css,
 	generateAssetsFontCss,
 	getScaledFontCss,
 	px,
 } from 'src/helpers/webview';
+import { Breakpoints } from 'src/theme/breakpoints';
 import { metrics } from 'src/theme/spacing';
 import { families, getScaledFont } from 'src/theme/typography';
 import { headerStyles } from './components/header';
 import { imageStyles } from './components/images';
 import { lineStyles } from './components/line';
+import { listStyles } from './components/lists';
+import { mediaAtomStyles } from './components/media-atoms';
 import { quoteStyles } from './components/pull-quote';
 import { starRatingStyles } from './components/rating';
 import { sportScoreStyles } from './components/sport-score';
-import { CssProps, themeColors } from './helpers/css';
-import { Breakpoints } from 'src/theme/breakpoints';
-import { mediaAtomStyles } from './components/media-atoms';
-import { ArticleType } from 'src/common';
 import { twitterEmbedStyles } from './components/twitter-embed';
-import { listStyles } from './components/lists';
-import { Platform } from 'react-native';
+import type { CssProps } from './helpers/css';
+import { themeColors } from './helpers/css';
 
 const makeFontsCss = () => css`
 	/* text */

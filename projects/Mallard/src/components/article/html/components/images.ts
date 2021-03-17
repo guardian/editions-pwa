@@ -1,13 +1,15 @@
-import { ImageElement } from 'src/common';
 import { Direction } from 'src/common';
-import { useMediaQuery } from 'src/hooks/use-screen';
+import type { ImageElement } from 'src/common';
 import { css, getFontCss, html, px } from 'src/helpers/webview';
+import { useMediaQuery } from 'src/hooks/use-screen';
 import { Breakpoints } from 'src/theme/breakpoints';
 import { metrics } from 'src/theme/spacing';
-import { Arrow } from './arrow';
-import { CssProps, themeColors } from '../helpers/css';
 import { ArticleType } from '../../../../../../Apps/common/src';
-import { ArticleTheme } from '../article';
+import type { ArticleTheme } from '../article';
+import type { CssProps } from '../helpers/css';
+import { themeColors } from '../helpers/css';
+import { Arrow } from './arrow';
+
 export const renderCaption = ({
 	caption,
 	credit,

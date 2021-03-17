@@ -28,21 +28,22 @@ build-Mallard:
 	@echo "\n👟 $@ 🦆\n"
 	@echo "\nThis is not yet handled by make\n"
 
-validate-mallard:
-	@echo "hello"	
-	@echo "\n👟🧶 $@ ESLINT 🦆\n"
-	cd projects/$* && yarn run lint
-	@echo "\n👟🚂 $@ TSC 🦆\n"
-	cd projects/$* && yarn tsc --noEmit --skipLibCheck
+# Mallard runs its own linter config based on the
+# "@guardian/eslint-config-typescript" ruleset
+# validate-mallard:
+# 	@echo "\n👟🧶 $@ ESLINT 🦆\n"
+# 	cd projects/Mallard && yarn run lint
+# 	@echo "\n👟🚂 $@ TSC 🦆\n"
+# 	cd projects/Mallard && yarn tsc --noEmit --skipLibCheck
 
 #
 # Project commands
 #
 validate-%: projects/%/node_modules node_modules
 	@echo "\n👟🧶 $@ ESLINT 🦆\n"
-	yarn eslint 'projects/$*/**/*.{ts,tsx}' --parser-options=project:./projects/$*/tsconfig.json
+	yarn eslint 'projects/$*/**/*.{ts,tsx}'   --parser-options=project:./projects/$*/tsconfig.json
 	@echo "\n👟🚂 $@ TSC 🦆\n"
-	yarn eslint 'projects/$*/**/*.{ts,tsx}' --parser-options=project:./projects/$*/tsconfig.json --fix
+	yarn eslint 'projects/$*/**/*.{ts,tsx}'  --parser-options=project:./projects/$*/tsconfig.json --fix
 fix-%: node_modules projects/%/node_modules node_modules
 	@echo "\n👟 $@ 🦆\n"
 	cd projects/$* && yarn run lint --fix
