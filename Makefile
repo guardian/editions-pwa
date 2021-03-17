@@ -23,11 +23,13 @@ test: $(patsubst %, test-%, $(PROJECTS))
 #
 # Overrides
 #
+
 build-Mallard:
 	@echo "\n👟 $@ 🦆\n"
 	@echo "\nThis is not yet handled by make\n"
 
-validate-Mallard:
+validate-mallard:
+	@echo "hello"	
 	@echo "\n👟🧶 $@ ESLINT 🦆\n"
 	cd projects/$* && yarn run lint
 	@echo "\n👟🚂 $@ TSC 🦆\n"
