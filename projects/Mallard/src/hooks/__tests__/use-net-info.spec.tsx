@@ -113,7 +113,7 @@ describe('use-net-info', () => {
 			await resolve(null, null, { client });
 
 			NetInfo.fetch.mockResolvedValue(cellularState);
-			await NetInfo.emit(cellularState);
+			NetInfo.emit(cellularState);
 
 			const state = await resolve(null, null, { client });
 			expect(state).toEqual({
@@ -144,7 +144,7 @@ describe('use-net-info', () => {
 			`;
 
 			NetInfo.fetch.mockResolvedValue(cellularState);
-			await NetInfo.emit(cellularState);
+			NetInfo.emit(cellularState);
 			await Promise.resolve();
 
 			const res = client.cache.readQuery<any>({
@@ -161,7 +161,7 @@ describe('use-net-info', () => {
 			NetInfo.fetch.mockResolvedValue(wifiState);
 			let state = await resolve(null, null, { client });
 
-			await state.setIsForcedOffline(true);
+			state.setIsForcedOffline(true);
 
 			state = await resolve(null, null, { client });
 			expect(state).toEqual({

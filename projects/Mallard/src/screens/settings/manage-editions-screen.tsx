@@ -150,7 +150,7 @@ const ManageEditionsScreen = () => {
 												n === data.maxAvailableEditions
 											}
 											onPress={async (n) => {
-												await setMaxAvailableEditions(
+												setMaxAvailableEditions(
 													client,
 													n,
 												);
