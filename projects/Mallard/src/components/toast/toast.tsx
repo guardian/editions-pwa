@@ -70,7 +70,7 @@ const holderStyles = StyleSheet.create({
 	},
 });
 
-const ToastRootHolder = ({}) => {
+const ToastRootHolder = () => {
 	const toasts = useToastList();
 	return (
 		<View style={holderStyles.root}>

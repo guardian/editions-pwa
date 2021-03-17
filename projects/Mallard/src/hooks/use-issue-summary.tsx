@@ -105,6 +105,7 @@ const refetch = async (
 		// irrelevant for end users; instead errors should be coded (ex. with
 		// numeric error code, each of which has a corresponding UI message).
 		if (error instanceof Error) {
+			// eslint-disable-next-line no-ex-assign
 			error = error.message;
 		}
 
