@@ -1,6 +1,12 @@
 import React from 'react';
 import { Dimensions, FlatList, StyleSheet } from 'react-native';
-import type { EditionId, RegionalEdition, SpecialEdition } from 'src/common';
+import type {
+	Edition,
+	EditionId,
+	RegionalEdition,
+	SpecialEdition,
+} from 'src/common';
+import { useEditions } from 'src/hooks/use-edition-provider';
 import { metrics } from 'src/theme/spacing';
 import { defaultRegionalEditions } from '../../../../Apps/common/src/editions-defaults';
 import { EditionButton } from './EditionButton/EditionButton';
@@ -14,76 +20,68 @@ const styles = StyleSheet.create({
 	},
 });
 
-function isSpecial(
-	edition: SpecialEdition | RegionalEdition,
-): edition is SpecialEdition {
+const isSpecial = (edition: Edition): edition is SpecialEdition => {
 	return (edition as SpecialEdition).editionType === 'Special';
-}
+};
+
+const mergeEditionLists = (
+	regionalEditions: RegionalEdition[] | undefined,
+	specialEditions: SpecialEdition[],
+): Edition[] => {
+	const regionalEditionsArray = regionalEditions ?? defaultRegionalEditions;
+	if (!specialEditions || specialEditions.length <= 0) {
+		return regionalEditionsArray;
+	} else {
+		const concatArray = [...regionalEditionsArray, ...specialEditions];
+		return concatArray;
+	}
+};
+
+type RenderEditionProps = {
+	item: Edition;
+	selectedEdition: EditionId;
+	storeSelectedEdition: (chosenEdition: Edition) => void;
+	navigationPress: () => void;
+};
+
+const renderEditions = ({
+	item,
+	storeSelectedEdition,
+	navigationPress,
+	selectedEdition,
+}: RenderEditionProps) => {
+	const handlePress = () => {
+		storeSelectedEdition(item);
+		navigationPress();
+	};
+	const isSelected = selectedEdition === item.edition;
+	if (isSpecial(item))
+		return (
+			<EditionButton
+				title={item.title}
+				subTitle={item.subTitle}
+				imageUri={item.buttonImageUri}
+				expiry={new Date(item.expiry)}
+				titleColor={item.buttonStyle.backgroundColor}
+				selected={isSelected}
+				onPress={handlePress}
+				isSpecial
+			/>
+		);
+	else
+		return (
+			<EditionButton
+				selected={isSelected}
+				onPress={handlePress}
+				title={item.title}
+				subTitle={item.subTitle}
+			/>
+		);
+};
 
 type MenuProps = {
 	navigationPress: () => void;
-	regionalEditions?: RegionalEdition[];
-	selectedEdition: EditionId;
-	specialEditions?: SpecialEdition[];
-	storeSelectedEdition: (
-		chosenEdition: RegionalEdition | SpecialEdition,
-	) => void;
 };
-
-const EditionsMenu = ({
-	navigationPress,
-	regionalEditions,
-	selectedEdition,
-	specialEditions,
-	storeSelectedEdition,
-}: MenuProps) => {
-	const renderItems = ({
-		item,
-	}: {
-		item: RegionalEdition | SpecialEdition;
-	}) => {
-		const handlePress = () => {
-			storeSelectedEdition(item);
-			navigationPress();
-		};
-
-		const isSelected = selectedEdition === item.edition;
-
-		if (isSpecial(item)) {
-			return (
-				<EditionButton
-					title={item.title}
-					subTitle={item.subTitle}
-					imageUri={item.buttonImageUri}
-					expiry={new Date(item.expiry)}
-					titleColor={item.buttonStyle.backgroundColor}
-					selected={isSelected}
-					onPress={handlePress}
-					isSpecial
-				/>
-			);
-		} else {
-			return (
-				<EditionButton
-					selected={isSelected}
-					onPress={handlePress}
-					title={item.title}
-					subTitle={item.subTitle}
-				/>
-			);
-		}
-	};
-
-	const concatEditions = (): Array<RegionalEdition | SpecialEdition> => {
-		const regionalEditionsArray =
-			regionalEditions ?? defaultRegionalEditions;
-		if (!specialEditions || specialEditions.length <= 0) {
-			return regionalEditionsArray;
-		} else {
-			const concatArray = [...regionalEditionsArray, ...specialEditions];
-			return concatArray;
-		}
-	};
 
 const EditionsMenu = ({ navigationPress }: MenuProps) => {
 	const {
@@ -92,15 +90,21 @@ const EditionsMenu = ({ navigationPress }: MenuProps) => {
 		storeSelectedEdition,
 	} = useEditions();
 
+	const editionList = mergeEditionLists(regionalEditions, specialEditions);
 	return (
 		<FlatList
 			style={styles.container}
 			data={editionList}
-			renderItem={renderItems}
-			ItemSeparatorComponent={() => <ItemSeperator />}
-			keyExtractor={(item: RegionalEdition | SpecialEdition) =>
-				item.title
+			renderItem={({ item }: { item: Edition }) =>
+				renderEditions({
+					item,
+					storeSelectedEdition,
+					navigationPress,
+					selectedEdition,
+				})
 			}
+			ItemSeparatorComponent={() => <ItemSeperator />}
+			keyExtractor={(item: Edition) => item.title}
 		/>
 	);
 };
