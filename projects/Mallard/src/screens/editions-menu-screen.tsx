@@ -65,11 +65,6 @@ export const ScreenFiller = ({
 };
 
 export const EditionsMenuScreen = () => {
-	const {
-		editionsList: { regionalEditions, specialEditions },
-		selectedEdition,
-		storeSelectedEdition,
-	} = useEditions();
 	const navigation = useNavigation();
 	return (
 		<WithAppAppearance value="default">
@@ -85,10 +80,6 @@ export const EditionsMenuScreen = () => {
 						navigationPress={() =>
 							navigation.navigate(RouteNames.Issue)
 						}
-						regionalEditions={regionalEditions}
-						specialEditions={specialEditions}
-						selectedEdition={selectedEdition.edition}
-						storeSelectedEdition={storeSelectedEdition}
 					/>
 					<ApiState />
 				</>

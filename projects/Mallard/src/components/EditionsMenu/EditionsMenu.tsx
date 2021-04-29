@@ -85,7 +85,13 @@ const EditionsMenu = ({
 		}
 	};
 
-	const editionList = concatEditions();
+const EditionsMenu = ({ navigationPress }: MenuProps) => {
+	const {
+		editionsList: { regionalEditions, specialEditions },
+		selectedEdition,
+		storeSelectedEdition,
+	} = useEditions();
+
 	return (
 		<FlatList
 			style={styles.container}
