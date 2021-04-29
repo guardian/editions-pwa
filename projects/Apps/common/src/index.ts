@@ -581,6 +581,8 @@ export interface EditionsList {
     trainingEditions: TrainingEdition[]
 }
 
+export type Edition = RegionalEdition | SpecialEdition
+
 export type Locale = 'en_GB' | 'en_AU'
 
 export interface EditionInterface {
@@ -608,7 +610,7 @@ export interface RegionalEdition extends EditionInterface {
 // and in future Regional/Training editions may have unique properties
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface TrainingEdition extends EditionInterface {}
+export interface TrainingEdition extends EditionInterface { }
 
 export interface SpecialEdition extends EditionInterface {
     buttonStyle: SpecialEditionButtonStyles
