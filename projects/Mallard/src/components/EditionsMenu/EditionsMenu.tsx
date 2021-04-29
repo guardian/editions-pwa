@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, FlatList, ScrollView, StyleSheet } from 'react-native';
+import { Dimensions, FlatList, StyleSheet } from 'react-native';
 import type { EditionId, RegionalEdition, SpecialEdition } from 'src/common';
 import { metrics } from 'src/theme/spacing';
 import { defaultRegionalEditions } from '../../../../Apps/common/src/editions-defaults';
@@ -14,13 +14,13 @@ const styles = StyleSheet.create({
 	},
 });
 
-const EditionsMenu = ({
-	navigationPress,
-	regionalEditions,
-	selectedEdition,
-	specialEditions,
-	storeSelectedEdition,
-}: {
+function isSpecial(
+	edition: SpecialEdition | RegionalEdition,
+): edition is SpecialEdition {
+	return (edition as SpecialEdition).editionType === 'Special';
+}
+
+type MenuProps = {
 	navigationPress: () => void;
 	regionalEditions?: RegionalEdition[];
 	selectedEdition: EditionId;
@@ -28,65 +28,74 @@ const EditionsMenu = ({
 	storeSelectedEdition: (
 		chosenEdition: RegionalEdition | SpecialEdition,
 	) => void;
-}) => {
-	const renderRegionalItem = ({ item }: { item: RegionalEdition }) => {
-		const handlePress = () => {
-			storeSelectedEdition(item);
-			navigationPress();
-		};
-		const isSelected = selectedEdition === item.edition ? true : false;
+};
 
-		return (
-			<EditionButton
-				selected={isSelected}
-				onPress={handlePress}
-				title={item.title}
-				subTitle={item.subTitle}
-			/>
-		);
-	};
-
-	const renderSpecialItem = ({ item }: { item: SpecialEdition }) => {
-		const { buttonStyle, buttonImageUri, expiry, title, subTitle } = item;
+const EditionsMenu = ({
+	navigationPress,
+	regionalEditions,
+	selectedEdition,
+	specialEditions,
+	storeSelectedEdition,
+}: MenuProps) => {
+	const renderItems = ({
+		item,
+	}: {
+		item: RegionalEdition | SpecialEdition;
+	}) => {
 		const handlePress = () => {
 			storeSelectedEdition(item);
 			navigationPress();
 		};
 
-		const isSelected = selectedEdition === item.edition ? true : false;
+		const isSelected = selectedEdition === item.edition;
 
-		return (
-			<EditionButton
-				title={title}
-				subTitle={subTitle}
-				imageUri={buttonImageUri}
-				expiry={new Date(expiry)}
-				titleColor={buttonStyle.backgroundColor}
-				selected={isSelected}
-				onPress={handlePress}
-				isSpecial
-			/>
-		);
+		if (isSpecial(item)) {
+			return (
+				<EditionButton
+					title={item.title}
+					subTitle={item.subTitle}
+					imageUri={item.buttonImageUri}
+					expiry={new Date(item.expiry)}
+					titleColor={item.buttonStyle.backgroundColor}
+					selected={isSelected}
+					onPress={handlePress}
+					isSpecial
+				/>
+			);
+		} else {
+			return (
+				<EditionButton
+					selected={isSelected}
+					onPress={handlePress}
+					title={item.title}
+					subTitle={item.subTitle}
+				/>
+			);
+		}
 	};
 
+	const concatEditions = (): Array<RegionalEdition | SpecialEdition> => {
+		const regionalEditionsArray =
+			regionalEditions ?? defaultRegionalEditions;
+		if (!specialEditions || specialEditions.length <= 0) {
+			return regionalEditionsArray;
+		} else {
+			const concatArray = [...regionalEditionsArray, ...specialEditions];
+			return concatArray;
+		}
+	};
+
+	const editionList = concatEditions();
 	return (
-		<ScrollView style={styles.container}>
-			<FlatList
-				data={regionalEditions ?? defaultRegionalEditions}
-				renderItem={renderRegionalItem}
-				ItemSeparatorComponent={() => <ItemSeperator />}
-				ListFooterComponent={() => <ItemSeperator />}
-			/>
-			{specialEditions && specialEditions.length > 0 && (
-				<>
-					<FlatList
-						data={specialEditions}
-						renderItem={renderSpecialItem}
-						ItemSeparatorComponent={() => <ItemSeperator />}
-					/>
-				</>
-			)}
-		</ScrollView>
+		<FlatList
+			style={styles.container}
+			data={editionList}
+			renderItem={renderItems}
+			ItemSeparatorComponent={() => <ItemSeperator />}
+			keyExtractor={(item: RegionalEdition | SpecialEdition) =>
+				item.title
+			}
+		/>
 	);
 };
 
