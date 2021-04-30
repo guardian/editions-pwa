@@ -3,5 +3,7 @@
     "trailingComma": "all",
     "singleQuote": true,
     "bracketSpacing": true,
-    "semi": false
+    "semi": false,
+    "jsxBracketSameLine": true,
+    "arrowParens": "avoid"
 }

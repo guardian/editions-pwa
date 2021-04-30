@@ -13,11 +13,13 @@ const useOverlayAnimation = (shouldAnimate: boolean) => {
 				toValue: 0.5,
 				duration: 300,
 				delay: 200,
+				useNativeDriver: true,
 			}).start();
 		} else {
 			Animated.timing(fadeAnim, {
 				toValue: 0,
 				duration: 200,
+				useNativeDriver: true,
 			}).start(() => setShowOverlay(false));
 		}
 	}, [shouldAnimate]);

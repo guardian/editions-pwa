@@ -48,12 +48,14 @@ const SliderHeaderHighEnd = ({
 				toValue: 0,
 				easing: Easing.out(Easing.ease),
 				duration: 200,
+				useNativeDriver: false,
 			}).start();
 		} else {
 			Animated.timing(top, {
 				toValue: -HEADER_HIGH_END_HEIGHT,
 				easing: Easing.out(Easing.ease),
 				duration: 200,
+				useNativeDriver: false,
 			}).start();
 		}
 	}, [isShown, top]);

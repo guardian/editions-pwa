@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { Animated, StyleSheet, View } from 'react-native';
 import type { ArticlePillar, Front as FrontType, Issue } from 'src/common';
 import { ArticleType, PageLayoutSizes } from 'src/common';
@@ -115,17 +115,6 @@ export const Front = React.memo(
 			position,
 			setPosition,
 		] = useState<Animated.AnimatedInterpolation>(new Animated.Value(0));
-
-		// Whenever we change edition, this resets us back to 0 scroll index for all fronts
-		useEffect(() => {
-			cards.length > 0 &&
-				flatListRef &&
-				flatListRef.current &&
-				flatListRef.current._component.scrollToIndex({
-					animated: false,
-					index: 0,
-				});
-		}, [frontData, cards]);
 
 		return (
 			<FrontWrapper
