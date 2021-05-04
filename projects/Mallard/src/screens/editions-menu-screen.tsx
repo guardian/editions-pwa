@@ -6,7 +6,6 @@ import DeviceInfo from 'react-native-device-info';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { EditionsMenu } from 'src/components/EditionsMenu/EditionsMenu';
 import { EditionsMenuScreenHeader } from 'src/components/ScreenHeader/EditionMenuScreenHeader';
-import { useEditions } from 'src/hooks/use-edition-provider';
 import { RouteNames } from 'src/navigation/NavigationModels';
 import { WithAppAppearance } from 'src/theme/appearance';
 import { ApiState } from './settings/api-screen';

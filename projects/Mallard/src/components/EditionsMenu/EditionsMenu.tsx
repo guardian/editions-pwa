@@ -1,11 +1,6 @@
 import React from 'react';
 import { Dimensions, FlatList, StyleSheet } from 'react-native';
-import type {
-	Edition,
-	EditionId,
-	RegionalEdition,
-	SpecialEdition,
-} from 'src/common';
+import type { Edition, RegionalEdition, SpecialEdition } from 'src/common';
 import { useEditions } from 'src/hooks/use-edition-provider';
 import { metrics } from 'src/theme/spacing';
 import { defaultRegionalEditions } from '../../../../Apps/common/src/editions-defaults';
@@ -39,7 +34,7 @@ const mergeEditionLists = (
 
 type RenderEditionProps = {
 	item: Edition;
-	selectedEdition: EditionId;
+	selectedEdition: Edition;
 	storeSelectedEdition: (chosenEdition: Edition) => void;
 	navigationPress: () => void;
 };
@@ -54,7 +49,7 @@ const renderEditions = ({
 		storeSelectedEdition(item);
 		navigationPress();
 	};
-	const isSelected = selectedEdition === item.edition;
+	const isSelected = selectedEdition.edition === item.edition;
 	if (isSpecial(item))
 		return (
 			<EditionButton

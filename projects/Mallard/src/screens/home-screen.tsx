@@ -271,7 +271,7 @@ const IssueListView = React.memo(
 			prevCurrentIndexRef.current = currentIssueIndex;
 
 			/* @types/react doesn't know about scroll functions */
-			(listRef.current as any).scrollToIndex({
+			listRef.current.scrollToIndex({
 				index: currentIssueIndex,
 			});
 		}, [currentIssueIndex]);

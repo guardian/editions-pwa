@@ -17,7 +17,7 @@ export const useDismissArticle = () => {
 			toValue: scrollY.interpolate({
 				inputRange: safeInterpolation([0, 60]),
 				outputRange: safeInterpolation([1, 0.8]),
-			}) as Animated.Value,
+			}),
 			duration: 0,
 			useNativeDriver: true,
 		}).start();
