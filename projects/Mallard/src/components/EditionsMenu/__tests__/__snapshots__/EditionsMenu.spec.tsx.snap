@@ -2,6 +2,58 @@
 
 exports[`EditionsMenu should display a EditionsMenu with correct styling and alternative Regional Buttons 1`] = `
 <RCTScrollView
+  ItemSeparatorComponent={[Function]}
+  data={
+    Array [
+      Object {
+        "edition": "daily-edition",
+        "editionType": "Regional",
+        "header": Object {
+          "subTitle": "Daily",
+          "title": "UK",
+        },
+        "locale": "en_GB",
+        "notificationUTCOffset": 3,
+        "subTitle": "Published from London every 
+morning by 6am (GMT)",
+        "title": "UK Daily",
+        "topic": "uk",
+      },
+      Object {
+        "edition": "australian-edition",
+        "editionType": "Regional",
+        "header": Object {
+          "subTitle": "Weekend",
+          "title": "Australia",
+        },
+        "locale": "en_AU",
+        "notificationUTCOffset": -5,
+        "subTitle": "Published from Sydney every 
+Saturday by 6 am (AEST)",
+        "title": "Australia Weekend",
+        "topic": "au",
+      },
+    ]
+  }
+  disableVirtualization={false}
+  getItem={[Function]}
+  getItemCount={[Function]}
+  horizontal={false}
+  initialNumToRender={10}
+  keyExtractor={[Function]}
+  maxToRenderPerBatch={10}
+  numColumns={1}
+  onContentSizeChange={[Function]}
+  onEndReachedThreshold={2}
+  onLayout={[Function]}
+  onMomentumScrollEnd={[Function]}
+  onScroll={[Function]}
+  onScrollBeginDrag={[Function]}
+  onScrollEndDrag={[Function]}
+  removeClippedSubviews={false}
+  renderItem={[Function]}
+  scrollEventThrottle={50}
+  stickyHeaderIndices={Array []}
   style={
     Object {
       "height": 1334,
@@ -9,103 +61,88 @@ exports[`EditionsMenu should display a EditionsMenu with correct styling and alt
       "paddingTop": 17,
     }
   }
+  updateCellsBatchingPeriod={50}
+  viewabilityConfigCallbackPairs={Array []}
+  windowSize={21}
 >
   <View>
-    <RCTScrollView
-      ItemSeparatorComponent={[Function]}
-      ListFooterComponent={[Function]}
-      data={
-        Array [
-          Object {
-            "edition": "daily-edition",
-            "editionType": "Regional",
-            "header": Object {
-              "subTitle": "Daily",
-              "title": "UK Daily",
-            },
-            "locale": "en_GB",
-            "notificationUTCOffset": 1,
-            "subTitle": "Published every day by 12am (GMT)",
-            "title": "UK Daily",
-            "topic": "au",
-          },
-          Object {
-            "edition": "australian-edition",
-            "editionType": "Regional",
-            "header": Object {
-              "subTitle": "Weekend",
-              "title": "Austraila",
-            },
-            "locale": "en_AU",
-            "notificationUTCOffset": 1,
-            "subTitle": "Published every day by 9:30am (AEST)",
-            "title": "Australia Daily",
-            "topic": "au",
-          },
-        ]
-      }
-      disableVirtualization={false}
-      getItem={[Function]}
-      getItemCount={[Function]}
-      horizontal={false}
-      initialNumToRender={10}
-      keyExtractor={[Function]}
-      maxToRenderPerBatch={10}
-      numColumns={1}
-      onContentSizeChange={[Function]}
-      onEndReachedThreshold={2}
+    <View
       onLayout={[Function]}
-      onMomentumScrollEnd={[Function]}
-      onScroll={[Function]}
-      onScrollBeginDrag={[Function]}
-      onScrollEndDrag={[Function]}
-      removeClippedSubviews={false}
-      renderItem={[Function]}
-      scrollEventThrottle={50}
-      stickyHeaderIndices={Array []}
-      updateCellsBatchingPeriod={50}
-      viewabilityConfigCallbackPairs={Array []}
-      windowSize={21}
+      style={null}
     >
-      <View>
-        <View
-          onLayout={[Function]}
-          style={null}
-        >
-          EditionButton
-          <View
-            style={
-              Object {
-                "height": 10,
-              }
-            }
-          />
-        </View>
-        <View
-          onLayout={[Function]}
-          style={null}
-        >
-          EditionButton
-        </View>
-        <View
-          onLayout={[Function]}
-        >
-          <View
-            style={
-              Object {
-                "height": 10,
-              }
-            }
-          />
-        </View>
-      </View>
-    </RCTScrollView>
+      EditionButton
+      <View
+        style={
+          Object {
+            "height": 10,
+          }
+        }
+      />
+    </View>
+    <View
+      onLayout={[Function]}
+      style={null}
+    >
+      EditionButton
+    </View>
   </View>
 </RCTScrollView>
 `;
 
 exports[`EditionsMenu should display a EditionsMenu with correct styling default Regional Buttons and a Special Edition Button 1`] = `
 <RCTScrollView
+  ItemSeparatorComponent={[Function]}
+  data={
+    Array [
+      Object {
+        "edition": "daily-edition",
+        "editionType": "Regional",
+        "header": Object {
+          "subTitle": "Daily",
+          "title": "UK",
+        },
+        "locale": "en_GB",
+        "notificationUTCOffset": 3,
+        "subTitle": "Published from London every 
+morning by 6am (GMT)",
+        "title": "UK Daily",
+        "topic": "uk",
+      },
+      Object {
+        "edition": "australian-edition",
+        "editionType": "Regional",
+        "header": Object {
+          "subTitle": "Weekend",
+          "title": "Australia",
+        },
+        "locale": "en_AU",
+        "notificationUTCOffset": -5,
+        "subTitle": "Published from Sydney every 
+Saturday by 6 am (AEST)",
+        "title": "Australia Weekend",
+        "topic": "au",
+      },
+    ]
+  }
+  disableVirtualization={false}
+  getItem={[Function]}
+  getItemCount={[Function]}
+  horizontal={false}
+  initialNumToRender={10}
+  keyExtractor={[Function]}
+  maxToRenderPerBatch={10}
+  numColumns={1}
+  onContentSizeChange={[Function]}
+  onEndReachedThreshold={2}
+  onLayout={[Function]}
+  onMomentumScrollEnd={[Function]}
+  onScroll={[Function]}
+  onScrollBeginDrag={[Function]}
+  onScrollEndDrag={[Function]}
+  removeClippedSubviews={false}
+  renderItem={[Function]}
+  scrollEventThrottle={50}
+  stickyHeaderIndices={Array []}
   style={
     Object {
       "height": 1334,
@@ -113,183 +150,88 @@ exports[`EditionsMenu should display a EditionsMenu with correct styling default
       "paddingTop": 17,
     }
   }
+  updateCellsBatchingPeriod={50}
+  viewabilityConfigCallbackPairs={Array []}
+  windowSize={21}
 >
   <View>
-    <RCTScrollView
-      ItemSeparatorComponent={[Function]}
-      ListFooterComponent={[Function]}
-      data={
-        Array [
-          Object {
-            "edition": "daily-edition",
-            "editionType": "Regional",
-            "header": Object {
-              "subTitle": "Daily",
-              "title": "UK",
-            },
-            "locale": "en_GB",
-            "notificationUTCOffset": 3,
-            "subTitle": "Published from London every 
-morning by 6am (GMT)",
-            "title": "UK Daily",
-            "topic": "uk",
-          },
-          Object {
-            "edition": "australian-edition",
-            "editionType": "Regional",
-            "header": Object {
-              "subTitle": "Weekend",
-              "title": "Australia",
-            },
-            "locale": "en_AU",
-            "notificationUTCOffset": -5,
-            "subTitle": "Published from Sydney every 
-Saturday by 6 am (AEST)",
-            "title": "Australia Weekend",
-            "topic": "au",
-          },
-        ]
-      }
-      disableVirtualization={false}
-      getItem={[Function]}
-      getItemCount={[Function]}
-      horizontal={false}
-      initialNumToRender={10}
-      keyExtractor={[Function]}
-      maxToRenderPerBatch={10}
-      numColumns={1}
-      onContentSizeChange={[Function]}
-      onEndReachedThreshold={2}
+    <View
       onLayout={[Function]}
-      onMomentumScrollEnd={[Function]}
-      onScroll={[Function]}
-      onScrollBeginDrag={[Function]}
-      onScrollEndDrag={[Function]}
-      removeClippedSubviews={false}
-      renderItem={[Function]}
-      scrollEventThrottle={50}
-      stickyHeaderIndices={Array []}
-      updateCellsBatchingPeriod={50}
-      viewabilityConfigCallbackPairs={Array []}
-      windowSize={21}
+      style={null}
     >
-      <View>
-        <View
-          onLayout={[Function]}
-          style={null}
-        >
-          EditionButton
-          <View
-            style={
-              Object {
-                "height": 10,
-              }
-            }
-          />
-        </View>
-        <View
-          onLayout={[Function]}
-          style={null}
-        >
-          EditionButton
-        </View>
-        <View
-          onLayout={[Function]}
-        >
-          <View
-            style={
-              Object {
-                "height": 10,
-              }
-            }
-          />
-        </View>
-      </View>
-    </RCTScrollView>
-    <RCTScrollView
-      ItemSeparatorComponent={[Function]}
-      data={
-        Array [
+      EditionButton
+      <View
+        style={
           Object {
-            "buttonImageUri": "https://media.guim.co.uk/49cebb0db4a3e4d26d7d190da7be4a2e9bd7534f/0_0_103_158/103.png",
-            "buttonStyle": Object {
-              "backgroundColor": "#FEEEF7",
-              "expiry": Object {
-                "color": "#7D0068",
-                "font": "GuardianTextSans-Regular",
-                "lineHeight": 16,
-                "size": 15,
-              },
-              "image": Object {
-                "height": 134,
-                "width": 87,
-              },
-              "subTitle": Object {
-                "color": "#7D0068",
-                "font": "GuardianTextSans-Bold",
-                "lineHeight": 20,
-                "size": 17,
-              },
-              "title": Object {
-                "color": "#121212",
-                "font": "GHGuardianHeadline-Regular",
-                "lineHeight": 34,
-                "size": 34,
-              },
-            },
-            "edition": "special-edition",
-            "editionType": "Special",
-            "expiry": "1998-02-01T00:00:00.000Z",
-            "header": Object {
-              "subTitle": "Monthly",
-              "title": "Food",
-            },
-            "notificationUTCOffset": 1,
-            "subTitle": "Store cupboard special: 20 quick and easy lockdown suppers",
-            "title": "Food
-Monthly",
-            "topic": "food",
-          },
-        ]
-      }
-      disableVirtualization={false}
-      getItem={[Function]}
-      getItemCount={[Function]}
-      horizontal={false}
-      initialNumToRender={10}
-      keyExtractor={[Function]}
-      maxToRenderPerBatch={10}
-      numColumns={1}
-      onContentSizeChange={[Function]}
-      onEndReachedThreshold={2}
+            "height": 10,
+          }
+        }
+      />
+    </View>
+    <View
       onLayout={[Function]}
-      onMomentumScrollEnd={[Function]}
-      onScroll={[Function]}
-      onScrollBeginDrag={[Function]}
-      onScrollEndDrag={[Function]}
-      removeClippedSubviews={false}
-      renderItem={[Function]}
-      scrollEventThrottle={50}
-      stickyHeaderIndices={Array []}
-      updateCellsBatchingPeriod={50}
-      viewabilityConfigCallbackPairs={Array []}
-      windowSize={21}
+      style={null}
     >
-      <View>
-        <View
-          onLayout={[Function]}
-          style={null}
-        >
-          EditionButton
-        </View>
-      </View>
-    </RCTScrollView>
+      EditionButton
+    </View>
   </View>
 </RCTScrollView>
 `;
 
 exports[`EditionsMenu should display a default EditionsMenu with correct styling and default Regional Buttons 1`] = `
 <RCTScrollView
+  ItemSeparatorComponent={[Function]}
+  data={
+    Array [
+      Object {
+        "edition": "daily-edition",
+        "editionType": "Regional",
+        "header": Object {
+          "subTitle": "Daily",
+          "title": "UK",
+        },
+        "locale": "en_GB",
+        "notificationUTCOffset": 3,
+        "subTitle": "Published from London every 
+morning by 6am (GMT)",
+        "title": "UK Daily",
+        "topic": "uk",
+      },
+      Object {
+        "edition": "australian-edition",
+        "editionType": "Regional",
+        "header": Object {
+          "subTitle": "Weekend",
+          "title": "Australia",
+        },
+        "locale": "en_AU",
+        "notificationUTCOffset": -5,
+        "subTitle": "Published from Sydney every 
+Saturday by 6 am (AEST)",
+        "title": "Australia Weekend",
+        "topic": "au",
+      },
+    ]
+  }
+  disableVirtualization={false}
+  getItem={[Function]}
+  getItemCount={[Function]}
+  horizontal={false}
+  initialNumToRender={10}
+  keyExtractor={[Function]}
+  maxToRenderPerBatch={10}
+  numColumns={1}
+  onContentSizeChange={[Function]}
+  onEndReachedThreshold={2}
+  onLayout={[Function]}
+  onMomentumScrollEnd={[Function]}
+  onScroll={[Function]}
+  onScrollBeginDrag={[Function]}
+  onScrollEndDrag={[Function]}
+  removeClippedSubviews={false}
+  renderItem={[Function]}
+  scrollEventThrottle={50}
+  stickyHeaderIndices={Array []}
   style={
     Object {
       "height": 1334,
@@ -297,99 +239,30 @@ exports[`EditionsMenu should display a default EditionsMenu with correct styling
       "paddingTop": 17,
     }
   }
+  updateCellsBatchingPeriod={50}
+  viewabilityConfigCallbackPairs={Array []}
+  windowSize={21}
 >
   <View>
-    <RCTScrollView
-      ItemSeparatorComponent={[Function]}
-      ListFooterComponent={[Function]}
-      data={
-        Array [
-          Object {
-            "edition": "daily-edition",
-            "editionType": "Regional",
-            "header": Object {
-              "subTitle": "Daily",
-              "title": "UK",
-            },
-            "locale": "en_GB",
-            "notificationUTCOffset": 3,
-            "subTitle": "Published from London every 
-morning by 6am (GMT)",
-            "title": "UK Daily",
-            "topic": "uk",
-          },
-          Object {
-            "edition": "australian-edition",
-            "editionType": "Regional",
-            "header": Object {
-              "subTitle": "Weekend",
-              "title": "Australia",
-            },
-            "locale": "en_AU",
-            "notificationUTCOffset": -5,
-            "subTitle": "Published from Sydney every 
-Saturday by 6 am (AEST)",
-            "title": "Australia Weekend",
-            "topic": "au",
-          },
-        ]
-      }
-      disableVirtualization={false}
-      getItem={[Function]}
-      getItemCount={[Function]}
-      horizontal={false}
-      initialNumToRender={10}
-      keyExtractor={[Function]}
-      maxToRenderPerBatch={10}
-      numColumns={1}
-      onContentSizeChange={[Function]}
-      onEndReachedThreshold={2}
+    <View
       onLayout={[Function]}
-      onMomentumScrollEnd={[Function]}
-      onScroll={[Function]}
-      onScrollBeginDrag={[Function]}
-      onScrollEndDrag={[Function]}
-      removeClippedSubviews={false}
-      renderItem={[Function]}
-      scrollEventThrottle={50}
-      stickyHeaderIndices={Array []}
-      updateCellsBatchingPeriod={50}
-      viewabilityConfigCallbackPairs={Array []}
-      windowSize={21}
+      style={null}
     >
-      <View>
-        <View
-          onLayout={[Function]}
-          style={null}
-        >
-          EditionButton
-          <View
-            style={
-              Object {
-                "height": 10,
-              }
-            }
-          />
-        </View>
-        <View
-          onLayout={[Function]}
-          style={null}
-        >
-          EditionButton
-        </View>
-        <View
-          onLayout={[Function]}
-        >
-          <View
-            style={
-              Object {
-                "height": 10,
-              }
-            }
-          />
-        </View>
-      </View>
-    </RCTScrollView>
+      EditionButton
+      <View
+        style={
+          Object {
+            "height": 10,
+          }
+        }
+      />
+    </View>
+    <View
+      onLayout={[Function]}
+      style={null}
+    >
+      EditionButton
+    </View>
   </View>
 </RCTScrollView>
 `;
