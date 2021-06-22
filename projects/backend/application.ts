@@ -60,7 +60,7 @@ export const createApp = (
         controllers.frontController,
     )
 
-    app.get('/render/:path(*)', controllers.renderController)
+    app.get('/render/:internalPageCode', controllers.renderController)
 
     app.get('/rendered-items/:path(*)', controllers.appsRenderingController)
 
