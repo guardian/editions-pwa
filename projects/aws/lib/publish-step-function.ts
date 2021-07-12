@@ -73,7 +73,7 @@ export const publishArchiverStepFunction = (
 
     const stateMachine = new sfn.StateMachine(
         scope,
-        'Archiver Publish State Machine',
+        `Archiver State Machine Publish`,
         {
             definition: copier.task,
             timeout: Duration.minutes(10),

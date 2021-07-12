@@ -4,14 +4,14 @@ import lambda = require('@aws-cdk/aws-lambda')
 import { Code } from '@aws-cdk/aws-lambda'
 import s3 = require('@aws-cdk/aws-s3')
 import iam = require('@aws-cdk/aws-iam')
-import { CfnOutput, Duration, Tag } from '@aws-cdk/core'
+import { CfnOutput, Duration, Tag, App } from '@aws-cdk/core'
 import acm = require('@aws-cdk/aws-certificatemanager')
 import { Effect } from '@aws-cdk/aws-iam'
 import { constructTriggeredStepFunction } from './listener'
 import { CfnEventBusPolicy } from '@aws-cdk/aws-events'
 import { GuStack } from '@guardian/cdk/lib/constructs/core/stack'
-import { App } from '@aws-cdk/core'
 import { GuStackProps } from '@guardian/cdk/lib/constructs/core/stack'
+import { GuVpc } from '@guardian/cdk/lib/constructs/ec2'
 
 export class EditionsStack extends GuStack {
     constructor(scope: App, id: string, props: GuStackProps) {
@@ -42,6 +42,16 @@ export class EditionsStack extends GuStack {
                 allowedValues: ['prod', 'code'],
             },
         )
+
+        const vpcIdParameter = new cdk.CfnParameter(this, 'vpcId', {
+            type: 'String',
+            description: 'ID of VPC to deploy editions into',
+        })
+
+        const subnets = new cdk.CfnParameter(this, 'subnets', {
+            type: 'List<AWS::EC2::Subnet::Id>',
+            description: 'subnets to deploy this stack into',
+        })
 
         const capiKeyParameter = new cdk.CfnParameter(this, 'capi', {
             type: 'String',
@@ -166,6 +176,12 @@ export class EditionsStack extends GuStack {
             },
         )
 
+        const vpc = GuVpc.fromId(this, 'vpc', {
+            vpcId: vpcIdParameter.valueAsString,
+        })
+
+        const privateSubnets = GuVpc.subnets(this, subnets.valueAsList)
+
         const deployBucket = s3.Bucket.fromBucketName(
             this,
             'mobile-dist',
@@ -226,6 +242,8 @@ export class EditionsStack extends GuStack {
                         `${stackParameter.valueAsString}/${stageParameter.valueAsString}/editions-backend/editions-backend.zip`,
                     ),
                     handler: 'index.handler',
+                    vpc: vpc,
+                    vpcSubnets: { subnets: privateSubnets },
                     environment: {
                         frontsStage: frontsStageParameter.valueAsString,
                         CAPI_KEY: capiKeyParameter.valueAsString,
