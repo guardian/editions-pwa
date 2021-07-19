@@ -186,7 +186,7 @@ export const findIssueSummaryByKey = (
 
 export const readIssueSummary = async (): Promise<IssueSummary[]> => {
 	const editionSlug = await getSelectedEditionSlug();
-	const editionDirectory = await FSPaths.editionDir(editionSlug);
+	const editionDirectory = FSPaths.editionDir(editionSlug);
 	return RNFS.readFile(editionDirectory + defaultSettings.issuesPath, 'utf8')
 		.then((data) => {
 			try {
@@ -203,10 +203,18 @@ export const readIssueSummary = async (): Promise<IssueSummary[]> => {
 		});
 };
 
+const silentlyDeleteFile = async (filePath: string) => {
+	try {
+		await RNFS.unlink(filePath);
+	} catch (error) {
+		console.log('Silent file deletion failed: ' + JSON.stringify(error));
+	}
+};
+
 export const fetchAndStoreIssueSummary = async (): Promise<IssueSummary[]> => {
 	const apiUrl = await getSetting('apiUrl');
 	const edition = await getSelectedEditionSlug();
-	const editionDirectory = await FSPaths.editionDir(edition);
+	const editionDirectory = FSPaths.editionDir(edition);
 
 	const fetchIssueSummaryUrl = `${apiUrl}${edition}/issues`;
 
@@ -218,11 +226,13 @@ export const fetchAndStoreIssueSummary = async (): Promise<IssueSummary[]> => {
 		}
 
 		const issueSummaryString = JSON.stringify(issueSummary);
-		await RNFS.writeFile(
-			editionDirectory + defaultSettings.issuesPath,
-			issueSummaryString,
-			'utf8',
-		);
+		// There is a known issue with this fs library where it append content of the file
+		// rather than overwrite it and result in malfomed json content. As a workaround we
+		// are deleting the file first before writing it.
+		// https://github.com/itinance/react-native-fs/issues/700
+		const filePath = editionDirectory + defaultSettings.issuesPath;
+		silentlyDeleteFile(filePath);
+		await RNFS.writeFile(filePath, issueSummaryString, 'utf8');
 
 		// The above saves it locally, if successful we return it
 		return issueSummary;

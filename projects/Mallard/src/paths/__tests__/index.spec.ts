@@ -40,7 +40,6 @@ describe('paths', () => {
 			expect(
 				FSPaths.image(
 					'daily-edition/2019-10-10',
-					'phone',
 					{
 						source: 'source',
 						path: 'path',
@@ -48,14 +47,13 @@ describe('paths', () => {
 					'full-size',
 				),
 			).toEqual(
-				'path/to/base/directory/issues/daily-edition/2019-10-10/media/phone/source/path',
+				'path/to/base/directory/issues/daily-edition/2019-10-10/media/images/source/path',
 			);
 		});
 		it('should give a media path on the local device for a thumbnail image', () => {
 			expect(
 				FSPaths.image(
 					'daily-edition/2019-10-10',
-					'phone',
 					{
 						source: 'source',
 						path: 'path',
@@ -63,7 +61,7 @@ describe('paths', () => {
 					'thumb',
 				),
 			).toEqual(
-				'path/to/base/directory/issues/daily-edition/2019-10-10/thumbs/phone/thumb/source/path',
+				'path/to/base/directory/issues/daily-edition/2019-10-10/thumbs/images/thumb/source/path',
 			);
 		});
 	});

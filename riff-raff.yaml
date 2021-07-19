@@ -1,31 +1,23 @@
-stacks: [frontend]
+stacks: [mobile]
 regions: [eu-west-1]
 
 deployments:
-    backend:
+    editions-backend:
         type: aws-lambda
         dependencies: [cloudformation]
         parameters:
             prefixStack: false
-            bucket: editions-dist
-            fileName: backend.zip
+            bucket: mobile-dist
+            fileName: editions-backend.zip
             functionNames:
                 [editions-preview-backend-, editions-published-backend-]
-    logging:
+    editions-archiver:
         type: aws-lambda
         dependencies: [cloudformation]
         parameters:
             prefixStack: false
-            bucket: editions-dist
-            fileName: logging.zip
-            functionNames: [editions-logging-]
-    archiver:
-        type: aws-lambda
-        dependencies: [cloudformation]
-        parameters:
-            prefixStack: false
-            bucket: editions-dist
-            fileName: archiver.zip
+            bucket: mobile-dist
+            fileName: editions-archiver.zip
             functionNames:
                 [
                     editions-proof-archiver-s3-event-listener-,
@@ -47,11 +39,4 @@ deployments:
             cloudFormationStackName: editions
             templatePath: cloudformation.yaml
             cloudFormationStackByTags: false
-    logging-cloudformation:
-        type: cloud-formation
-        app: editions-logging
-        parameters:
-            prependStackToCloudFormationStackName: false
-            cloudFormationStackName: editions-logging
-            templatePath: logging-cloudformation.yaml
-            cloudFormationStackByTags: false
+

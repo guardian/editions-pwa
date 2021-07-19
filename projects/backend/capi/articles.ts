@@ -21,9 +21,12 @@ import { getBylineImages } from './byline'
 import { rationaliseAtoms } from './atoms'
 import { articleTypePicker, headerTypePicker } from './articleTypePicker'
 import { getImages } from './articleImgPicker'
-import { RequestSigner } from 'aws4'
-import { SharedIniFileCredentials, STS } from 'aws-sdk'
 import { capiSearchDecoder } from './decoders'
+import {
+    CAPIEndpoint,
+    generateCapiEndpoint,
+    getPreviewHeaders,
+} from '../utils/article'
 
 type NotInCAPI =
     | 'key'
@@ -287,90 +290,6 @@ const parseArticleResult = async (
     }
 }
 
-type CAPIEndpoint = 'preview' | 'printsent' | 'live'
-
-const getStsCreds = async (role: string) => {
-    const sts = new STS({ apiVersion: '2011-06-15' })
-    const creds = await sts
-        .assumeRole({
-            RoleArn: role as string,
-            RoleSessionName: 'capi-assume-role-access2',
-        })
-        .promise()
-        .catch(err => console.error('assume role failed', err))
-
-    if (creds && creds.Credentials) {
-        return {
-            secretAccessKey: creds.Credentials.SecretAccessKey,
-            accessKeyId: creds.Credentials.AccessKeyId,
-            sessionToken: creds.Credentials.SessionToken,
-        }
-    } else {
-        const errorMessage = `Could not generate credentials using STS role ${role}`
-        console.error(errorMessage)
-        throw new Error(errorMessage)
-    }
-}
-
-const getProfileCreds = async () => {
-    const credentials = new SharedIniFileCredentials({ profile: 'capi' })
-    return {
-        secretAccessKey: credentials.secretAccessKey,
-        accessKeyId: credentials.accessKeyId,
-        sessionToken: credentials.sessionToken,
-    }
-}
-
-/**
- * To access the capi Preview endpoint we need to sign requests (as it is a private api gateway endpoint)
- * This function generates the necessary headers.
- * @param endpoint
- */
-export async function sign(endpoint: string) {
-    const url = new URL(endpoint)
-
-    const opts = {
-        region: 'eu-west-1',
-        service: 'execute-api',
-        host: url.hostname,
-        path: url.pathname + url.search,
-    }
-
-    const credentials = process.env.capiAccessArn
-        ? await getStsCreds(process.env.capiAccessArn)
-        : await getProfileCreds()
-
-    const { headers } = new RequestSigner(opts, credentials).sign()
-
-    console.log(`Signed request, generated headers: ${JSON.stringify(headers)}`)
-
-    return headers
-}
-
-const getEndpoint = (capi: CAPIEndpoint, paths: string[]): string => {
-    const queryString = `?ids=${paths.join(',')}&api-key=${
-        process.env.CAPI_KEY
-    }&format=thrift&show-elements=all&show-atoms=all&show-rights=all&show-fields=all&show-tags=all&show-blocks=all&show-references=all&page-size=100`
-
-    switch (capi) {
-        case 'printsent':
-            return `${process.env.psurl}/search${queryString}`
-        case 'live':
-            return `https://content.guardianapis.com/search${queryString}`
-        case 'preview':
-            return `${process.env.capiPreviewUrl}/search${queryString}`
-        default:
-            return ''
-    }
-}
-
-const getPreviewHeaders = async (endpoint: string) => {
-    return {
-        Accept: 'application/json',
-        ...(await sign(endpoint)),
-    }
-}
-
 const isScheduledInNext30Days = (dateiso8601: string): boolean => {
     const date = new Date(dateiso8601)
     const oneMonthAway = new Date(new Date().setDate(date.getDate() + 30))
@@ -390,15 +309,14 @@ export const getArticles = async (
     ids: number[],
     capi: CAPIEndpoint,
 ): Promise<{ [key: string]: CAPIContent }> => {
-    const paths = ids.map(_ => `internal-code/page/${_}`)
     const isFromPrint = capi === 'printsent'
-    const endpoint = getEndpoint(capi, paths)
+    const endpoint = generateCapiEndpoint(ids, capi)
     const headers = capi === 'preview' ? await getPreviewHeaders(endpoint) : {}
 
     if (endpoint.length > 1000) {
         console.warn(
             `Unusually long CAPI request of ${endpoint.length}, splitting`,
-            paths,
+            ids,
         )
         const midpoint = ~~(ids.length / 2) //Coerece into int, even though apparently you can slice on a float
         const firstRequest = attempt(getArticles(ids.slice(0, midpoint), capi))
@@ -416,8 +334,7 @@ export const getArticles = async (
         const lastArray = Object.entries(last)
         return fromPairs(firstArray.concat(lastArray))
     }
-    console.log('Making CAPI query', endpoint)
-    console.log('Debug link:', endpoint.replace(/thrift/g, 'json'))
+    console.log('Debug link (CAPI query):', endpoint.replace(/thrift/g, 'json'))
     const resp = await attempt(fetch(endpoint, { headers }))
     if (hasFailed(resp)) throw new Error('Could not connect to CAPI.')
     if (resp.status != 200) {

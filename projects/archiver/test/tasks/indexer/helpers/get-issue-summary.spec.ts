@@ -10,6 +10,14 @@ describe('getIssueSummaryInternal', () => {
         'zips/american-edition/2019-10-09/2019-10-08T14:07:37.084Z/tabletXL.zip',
     ]
 
+    const assetKeysSSR = [
+        'zips/american-edition/2019-10-09/2019-10-08T14:07:37.084Z/html.zip',
+        'zips/american-edition/2019-10-09/2019-10-08T14:07:37.084Z/phone.zip',
+        'zips/american-edition/2019-10-09/2019-10-08T14:07:37.084Z/tablet.zip',
+        'zips/american-edition/2019-10-09/2019-10-08T14:07:37.084Z/tabletL.zip',
+        'zips/american-edition/2019-10-09/2019-10-08T14:07:37.084Z/tabletXL.zip',
+    ]
+
     it('should return IssueSummary', async () => {
         const issue: IssuePublicationIdentifier = {
             edition: 'american-edition',
@@ -17,9 +25,10 @@ describe('getIssueSummaryInternal', () => {
             issueDate: '2019-10-09',
         }
 
-        const actual = getIssueSummaryInternal(
+        const actual = await getIssueSummaryInternal(
             issue,
             assetKeys,
+            assetKeysSSR,
             'American Edition',
         )
 
@@ -41,6 +50,20 @@ describe('getIssueSummaryInternal', () => {
                 tabletXL:
                     'zips/american-edition/2019-10-09/2019-10-08T14:07:37.084Z/tabletXL.zip',
             },
+            assetsSSR: {
+                data:
+                    'zips/american-edition/2019-10-09/2019-10-08T14:07:37.084Z/data.zip',
+                html:
+                    'zips/american-edition/2019-10-09/2019-10-08T14:07:37.084Z/html.zip',
+                phone:
+                    'zips/american-edition/2019-10-09/2019-10-08T14:07:37.084Z/phone.zip',
+                tablet:
+                    'zips/american-edition/2019-10-09/2019-10-08T14:07:37.084Z/tablet.zip',
+                tabletL:
+                    'zips/american-edition/2019-10-09/2019-10-08T14:07:37.084Z/tabletL.zip',
+                tabletXL:
+                    'zips/american-edition/2019-10-09/2019-10-08T14:07:37.084Z/tabletXL.zip',
+            },
         }
 
         expect(actual).toStrictEqual(expected)
@@ -53,9 +76,10 @@ describe('getIssueSummaryInternal', () => {
             issueDate: '2019-1011-09',
         }
 
-        const actual = getIssueSummaryInternal(
+        const actual = await getIssueSummaryInternal(
             issueWithIncorrectDate,
             assetKeys,
+            assetKeysSSR,
             'American Edition',
         )
 
@@ -69,8 +93,9 @@ describe('getIssueSummaryInternal', () => {
             issueDate: '2019-10-09',
         }
 
-        const actual = getIssueSummaryInternal(
+        const actual = await getIssueSummaryInternal(
             issueWithIncorrectDate,
+            [],
             [],
             'American Edition',
         )

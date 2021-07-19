@@ -1,8 +1,7 @@
 import { Platform } from 'react-native';
 import type { Settings } from '../settings';
 
-export const newMobileProdStack =
-	'https://editions-published-prod.s3-eu-west-1.amazonaws.com/';
+export const newMobileProdStack = 'https://editions.guardianapis.com/';
 
 /*
 Default settings.
@@ -11,7 +10,7 @@ This is a bit of a mess
 export const backends = [
 	{
 		title: 'PROD published',
-		value: 'https://editions.guardianapis.com/',
+		value: newMobileProdStack,
 		preview: false,
 	},
 	{
@@ -21,7 +20,7 @@ export const backends = [
 	},
 	{
 		title: 'PROD preview',
-		value: 'https://preview.editions.guardianapis.com/',
+		value: 'https://editions-preview.guardianapis.com/',
 		preview: true,
 	},
 	{
@@ -36,18 +35,8 @@ export const backends = [
 	},
 	{
 		title: 'CODE preview',
-		value: 'https://preview.editions.code.dev-guardianapis.com/',
+		value: 'https://editions-preview.code.dev-guardianapis.com/',
 		preview: true,
-	},
-	{
-		title: '(MOBILE) CODE published',
-		value: 'https://editions-published-code.s3-eu-west-1.amazonaws.com/',
-		preview: false,
-	},
-	{
-		title: '(MOBILE) PROD published',
-		value: newMobileProdStack,
-		preview: false,
 	},
 	{
 		title: 'DEV',
@@ -114,10 +103,6 @@ const storeDetails = {
 	ios: 'itms-apps://itunes.apple.com/app/id452707806',
 	android: 'market://details?id=com.guardian.editions',
 };
-const appsRenderingService = {
-	prod: 'https://mobile.guardianapis.com/rendered-items/',
-	code: 'http://mobile.code.dev-guardianapis.com/rendered-items/',
-};
 
 export const defaultSettings: Settings = {
 	apiUrl,
@@ -141,18 +126,20 @@ export const defaultSettings: Settings = {
 	senderId: __DEV__ ? senderId.code : senderId.prod,
 	isWeatherShown: true,
 	wifiOnlyDownloads: false,
-	isAppsRendering: false,
 	maxAvailableEditions: 7,
 	websiteUrl: 'https://www.theguardian.com/',
 	logging: __DEV__
 		? 'https://editions-logging.code.dev-guardianapis.com/log/mallard'
 		: 'https://editions-logging.guardianapis.com/log/mallard',
-	// this currently points exclusively to PROD so that we don't require a VPN to access the endpoint.
-	appsRenderingService: appsRenderingService.prod,
 };
 
 export const editionsEndpoint = (apiUrl: Settings['apiUrl']): string =>
 	`${apiUrl}editions`;
+
+export const htmlEndpoint = (
+	apiUrl: Settings['apiUrl'],
+	publishedIssueId: string,
+): string => `${apiUrl}${publishedIssueId}/html`;
 
 export const isPreview = (apiUrl: Settings['apiUrl']): boolean => {
 	const backend = backends.find((backend) => backend.value === apiUrl);

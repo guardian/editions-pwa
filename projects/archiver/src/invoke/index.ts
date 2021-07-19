@@ -23,6 +23,11 @@ export interface Record {
     eventTime: string
 } //partial of https://docs.aws.amazon.com/AmazonS3/latest/dev/notification-content-structure.html
 
+export interface CloudWatchEvent {
+    detail: { requestParameters: { bucketName: string; key: string } }
+    time: string
+}
+
 const sf = new StepFunctions({
     region: 'eu-west-1',
 })
@@ -190,12 +195,20 @@ export const internalHandler = async (
     ]
 }
 
+const eventToRecord = (event: CloudWatchEvent): Record => {
+    return {
+        s3: {
+            bucket: { name: event.detail.requestParameters.bucketName },
+            object: { key: event.detail.requestParameters.key },
+        },
+        eventTime: event.time,
+    }
+}
+
 export const handler: Handler<
-    {
-        Records: Record[]
-    },
+    CloudWatchEvent,
     (string | Failure)[]
-> = async ({ Records }) => {
+> = async inputData => {
     const proofStateMachineArnEnv = 'proofStateMachineARN'
     const proofStateMachineArn = process.env[proofStateMachineArnEnv]
     const publishStateMachineArnEnv = 'publishStateMachineARN'
@@ -208,9 +221,12 @@ export const handler: Handler<
         throw new Error('No Publish State Machine ARN configured')
     }
 
+    console.log('input data', inputData)
+    const Records = [eventToRecord(inputData)]
+
     console.log(
         `Attempting to invoke Proof/Publish State Machines after receiving records:`,
-        Records,
+        inputData,
     )
 
     const runtimeDependencies: InvokerDependencies = {

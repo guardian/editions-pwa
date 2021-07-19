@@ -292,7 +292,7 @@ const getDisplayName = (front: string) => {
     return split.charAt(0).toUpperCase() + split.slice(1)
 }
 
-const fetchPublishedIssue = async (
+export const fetchPublishedIssue = async (
     issue: IssuePublicationIdentifier,
     frontId: string,
     lastModifiedUpdater: LastModifiedUpdater,

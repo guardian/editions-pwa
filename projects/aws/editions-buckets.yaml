@@ -1,0 +1,20 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:
+    Stage:
+        Type: String
+        AllowedValues:
+            - prod
+            - code
+        ConstraintDescription: must be a valid stage.
+
+Resources:
+    ProofBucket:
+        Type: AWS::S3::Bucket
+        Properties:
+            BucketName: !Sub editions-proofed-${Stage}
+
+    PublishedBucket:
+        Type: AWS::S3::Bucket
+        Properties:
+            BucketName: !Sub editions-published-${Stage}

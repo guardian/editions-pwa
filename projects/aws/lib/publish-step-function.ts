@@ -1,11 +1,11 @@
 import * as iam from '@aws-cdk/aws-iam'
 import * as sfn from '@aws-cdk/aws-stepfunctions'
-import * as cdk from '@aws-cdk/core'
 import { Duration } from '@aws-cdk/core'
+import { GuStack } from '@guardian/cdk/lib/constructs/core/stack'
 import { PublishStepFunctionProps, publishTask } from './constructs'
 
 export const publishArchiverStepFunction = (
-    scope: cdk.Construct,
+    scope: GuStack,
     {
         stack,
         stage,
@@ -75,7 +75,6 @@ export const publishArchiverStepFunction = (
         scope,
         'Archiver Publish State Machine',
         {
-            stateMachineName: `Editions-Archiver-Publish-State-Machine-${stage}`,
             definition: copier.task,
             timeout: Duration.minutes(10),
         },

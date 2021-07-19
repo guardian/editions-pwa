@@ -4,17 +4,15 @@
     "main": "main.js",
     "license": "MIT",
     "engines": {
-        "node": "^10.15"
+        "node": "^14.16"
     },
     "devDependencies": {
         "@types/archiver": "^3.0.0",
         "@types/aws-lambda": "^8.10.25",
         "@types/node-fetch": "^2.5.0",
-        "@types/node-memwatch": "^1.0.1",
         "@types/ramda": "^0.26.15",
         "@zeit/ncc": "^0.20.4",
         "dotenv": "^8.0.0",
-        "node-memwatch": "^1.0.1",
         "ts-node": "^8.3.0",
         "typescript": "^3.5.3"
     },
@@ -30,7 +28,7 @@
     "dependencies": {
         "@types/jest": "^24.0.17",
         "@zeit/ncc": "^0.20.4",
-        "archiver": "^5.0.2",
+        "archiver": "^5.3.0",
         "aws-sdk": "2.518.0",
         "encoding": "^0.1.12",
         "jest": "^24.8.0",

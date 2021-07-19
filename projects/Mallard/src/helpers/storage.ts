@@ -96,8 +96,8 @@ const notificationsEnabledCache = createAsyncCache<boolean>(
 	'notificationsEnabled',
 );
 
-const newApiUrlSetForBetaUsers = createAsyncCache<boolean>(
-	'newApiUrlSetForBeta',
+const rollbackedApiUrlForBetaUsers = createAsyncCache<boolean>(
+	'rollbackedApiUrlForBetaUsers',
 );
 
 /**
@@ -168,7 +168,7 @@ export {
 	editionsListCache,
 	pushRegisteredTokens,
 	notificationsEnabledCache,
-	newApiUrlSetForBetaUsers,
+	rollbackedApiUrlForBetaUsers,
 	showAllEditionsCache,
 	seenEditionsCache,
 };

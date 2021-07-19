@@ -322,20 +322,6 @@ const handlePending = (headerStyle?: SpecialEditionHeaderStyles) => () => (
 	</>
 );
 
-const handleIssueScreenError = (
-	error: string,
-	headerStyle?: SpecialEditionHeaderStyles,
-) => (
-	<>
-		<IssueScreenHeader headerStyles={headerStyle} />
-		<FlexErrorMessage
-			debugMessage={error}
-			title={CONNECTION_FAILED_ERROR}
-			message={CONNECTION_FAILED_AUTO_RETRY}
-		/>
-	</>
-);
-
 /** used to memoize the IssueScreenWithPath */
 const pathsAreEqual = (a: PathToIssue, b: PathToIssue) =>
 	a.localIssueId === b.localIssueId &&
@@ -491,9 +477,21 @@ export const IssueScreen = () => {
 					headerStyle={headerStyle}
 				/>
 			) : error ? (
-				error && handleIssueScreenError(error, headerStyle)
+				<>
+					<IssueScreenHeader headerStyles={headerStyle} />
+					<FlexErrorMessage
+						debugMessage={error}
+						title={CONNECTION_FAILED_ERROR}
+						message={CONNECTION_FAILED_AUTO_RETRY}
+					/>
+				</>
 			) : (
-				handlePending()
+				<>
+					<IssueScreenHeader headerStyles={headerStyle} />
+					<FlexCenter>
+						<Spinner />
+					</FlexCenter>
+				</>
 			)}
 		</Container>
 	);

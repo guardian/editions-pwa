@@ -5,8 +5,8 @@ exports[`ReloadButton should display a ReloadButton 1`] = `
   style={
     Array [
       Object {
-        "left": 60,
         "position": "absolute",
+        "right": 70,
         "top": 40,
         "zIndex": 99999,
       },

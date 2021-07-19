@@ -57,7 +57,7 @@ export class LoggingStack extends cdk.Stack {
         const loggingFunction = () => {
             const fn = new lambda.Function(this, `EditionsLogging`, {
                 functionName: `editions-logging-${stageParameter.valueAsString}`,
-                runtime: lambda.Runtime.NODEJS_10_X,
+                runtime: lambda.Runtime.NODEJS_14_X,
                 memorySize: 128,
                 timeout: Duration.seconds(1),
                 code: Code.bucket(

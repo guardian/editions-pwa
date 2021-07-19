@@ -4,7 +4,6 @@ import type {
 	Collection,
 	Front,
 	Image,
-	ImageSize,
 	ImageUse,
 	Issue,
 } from 'src/common';
@@ -50,12 +49,8 @@ export const FSPaths = {
 	edtionsDirList,
 	issueRoot,
 	mediaRoot,
-	image: (
-		localIssueId: string,
-		size: ImageSize,
-		image: Image,
-		use: ImageUse,
-	) => imagePath(issueRoot(localIssueId), size, image, use),
+	image: (localIssueId: string, image: Image, use: ImageUse) =>
+		imagePath(issueRoot(localIssueId), image, use),
 	zip: (localIssueId: string, filename: string) =>
 		`${issueRoot(localIssueId)}/${filename}.zip`,
 	issue: (localIssueId: string) => `${issueRoot(localIssueId)}/issue`,

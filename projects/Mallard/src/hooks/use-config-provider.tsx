@@ -1,13 +1,11 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Dimensions, Platform } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
-import { getSetting, storeSetting } from 'src/helpers/settings';
 import { notificationsEnabledCache } from 'src/helpers/storage';
 import { errorService } from 'src/services/errors';
 import { Breakpoints } from 'src/theme/breakpoints';
 
 const oneGB = 1073741824;
-const IS_APPS_RENDERING = 'isAppsRendering';
 
 interface ConfigState {
 	largeDeviceMemeory: boolean;
@@ -19,8 +17,6 @@ interface ConfigState {
 	};
 	notificationsEnabled: boolean;
 	setNotifications: (setting: boolean) => Promise<void>;
-	isAppsRendering: boolean;
-	storeisAppsRendering: (setting: boolean) => void;
 }
 
 const notificationInitialState = () =>
@@ -36,8 +32,6 @@ const initialState: ConfigState = {
 	},
 	notificationsEnabled: notificationInitialState(),
 	setNotifications: () => Promise.resolve(),
-	isAppsRendering: false,
-	storeisAppsRendering: () => {},
 };
 
 const ConfigContext = createContext(initialState);
@@ -62,12 +56,6 @@ export const ConfigProvider = ({ children }: { children: React.ReactNode }) => {
 	const [notificationsEnabled, setNotificationsEnabled] = useState(
 		notificationInitialState(),
 	);
-	const [isAppsRendering, setIsAppsRendering] = useState(false);
-
-	const storeisAppsRendering = async (setting: boolean) => {
-		await storeSetting(IS_APPS_RENDERING, setting);
-		setIsAppsRendering(setting);
-	};
 
 	const setNotifications = async (setting: boolean) => {
 		try {
@@ -122,12 +110,6 @@ export const ConfigProvider = ({ children }: { children: React.ReactNode }) => {
 		};
 	}, []);
 
-	useEffect(() => {
-		getSetting(IS_APPS_RENDERING).then((result) => {
-			setIsAppsRendering(result);
-		});
-	}, []);
-
 	return (
 		<ConfigContext.Provider
 			value={{
@@ -135,8 +117,6 @@ export const ConfigProvider = ({ children }: { children: React.ReactNode }) => {
 				dimensions,
 				notificationsEnabled,
 				setNotifications,
-				isAppsRendering,
-				storeisAppsRendering,
 			}}
 		>
 			{children}
@@ -152,9 +132,4 @@ export const useDimensions = () => useContext(ConfigContext).dimensions;
 export const useNotificationsEnabled = () => ({
 	notificationsEnabled: useContext(ConfigContext).notificationsEnabled,
 	setNotifications: useContext(ConfigContext).setNotifications,
-});
-
-export const useIsAppsRendering = () => ({
-	isAppsRendering: useContext(ConfigContext).isAppsRendering,
-	setIsAppsRendering: useContext(ConfigContext).storeisAppsRendering,
 });

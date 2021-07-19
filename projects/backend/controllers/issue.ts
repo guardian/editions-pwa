@@ -1,10 +1,9 @@
 import { Request, Response } from 'express'
-import { groupBy } from 'ramda'
 import {
     IssueSummary,
-    notNull,
     IssuePublicationIdentifier,
     EditionId,
+    notNull,
 } from '../common'
 import { getIssue } from '../issue'
 import { isPreview as isPreviewStage } from '../preview'
@@ -12,9 +11,10 @@ import { s3List, s3FrontsClient } from '../s3'
 import { Attempt, hasFailed } from '../utils/try'
 import {
     buildEditionRootPath as buildEditionPath,
-    getEditionOrFallback,
     decodeVersionOrPreview,
+    getEditionOrFallback,
 } from '../utils/issue'
+import { groupBy } from 'ramda'
 
 export const DEFAULT_LIVE_PAGE_SIZE = 30
 export const DEFAULT_PREVIEW_PAGE_SIZE = 35
@@ -58,6 +58,7 @@ export const getIssuesSummary = async (
     const edition: EditionId = getEditionOrFallback(maybeEdition)
     const editionPath = buildEditionPath(maybeEdition, isPreview)
     const issueKeys = await s3List(editionPath, s3FrontsClient)
+    console.log(`Preparing issues summaries, isPreview: ${isPreview}`)
 
     if (hasFailed(issueKeys)) {
         console.error('Error in issue index controller')
@@ -121,8 +122,7 @@ export const getIssuesSummary = async (
 
 export const issuesSummaryController = (req: Request, res: Response) => {
     const issueEdition = req.params.edition
-    const pageSize = req.query.pageSize && parseInt(req.query.pageSize, 10)
-    getIssuesSummary(issueEdition, isPreviewStage, pageSize)
+    getIssuesSummary(issueEdition, isPreviewStage)
         .then(data => {
             if (hasFailed(data)) {
                 console.error(JSON.stringify(data))

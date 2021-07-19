@@ -16,7 +16,7 @@ import { Bucket, s3 } from '../../../utils/s3'
 const identifyAssetFiles = (assetKeys: string[]) => {
     return fromPairs(
         assetKeys
-            .map((key): [ImageSize | 'data', string] | null => {
+            .map((key): [ImageSize | 'data' | 'html', string] | null => {
                 //get the name of the zip file by splitting into path segments
                 //taking the last one
                 //and removing the suffix
@@ -25,9 +25,9 @@ const identifyAssetFiles = (assetKeys: string[]) => {
                     .slice(-1)[0]
                     .replace('.zip', '')
 
-                // special case the data bundle
-                if (filename === 'data') {
-                    return ['data', key]
+                // special case the data and html bundle
+                if (filename === 'data' || filename === 'html') {
+                    return [filename, key]
                 }
 
                 // drop any unrecognised asset zips
@@ -54,17 +54,41 @@ const makeImageAssetObject = (assetFiles: {
     )
 }
 
+const getAssestKeysFromBucket = async (
+    bucket: Bucket,
+    prefix: string,
+): Promise<string[]> => {
+    const assetKeyList = await s3
+        .listObjectsV2({
+            Bucket: bucket.name,
+            Prefix: prefix,
+        })
+        .promise()
+
+    const assetKeys = oc(assetKeyList)
+        .Contents([])
+        .map(_ => _.Key)
+        .filter(notNull)
+
+    console.log(
+        `getIssueSummary, get assetKeyList from s3://${bucket.name}/${prefix}`,
+        JSON.stringify(assetKeyList),
+    )
+
+    return assetKeys
+}
+
 /* Given an instance of an issue this returns a summary of the instance that
  * includes simple metadata (key, localId, etc) and the list of zip assets.
  * If the issue isn't valid this will return undefined.
  */
-export const getIssueSummaryInternal = (
+export const getIssueSummaryInternal = async (
     issuePublication: IssuePublicationIdentifier,
     assetKeys: string[],
+    assetKeysSSR: string[],
     name: string,
-): IssueSummary | undefined => {
+): Promise<IssueSummary | undefined> => {
     const { edition, issueDate } = issuePublication
-
     const publishedIssuePrefix = getPublishedId(issuePublication)
 
     const dateFromIssue = new Date(issueDate)
@@ -74,16 +98,28 @@ export const getIssueSummaryInternal = (
         return undefined
     }
 
+    //Asset files for existing app clients
     const assetFiles = identifyAssetFiles(assetKeys)
-
-    const images = makeImageAssetObject(assetFiles)
-
-    const data = assetFiles.data
-    if (data == null) {
+    if (assetFiles.data == null) {
         console.log(`No data for ${issue}`)
         return undefined
     }
-    const assets = { data, ...images }
+    const images = makeImageAssetObject(assetFiles)
+    const assets = { data: assetFiles.data, ...images }
+
+    //Asset generation for new app client that are compatible with SSR articles
+    const assetFilesSSR = identifyAssetFiles(assetKeysSSR)
+    if (assetFilesSSR.html == null) {
+        console.log(`No html in ssr folder for ${issue}`)
+        return undefined
+    }
+    const imagesSSR = makeImageAssetObject(assetFilesSSR)
+    const assetsSSR = {
+        data: assetFiles.data,
+        html: assetFilesSSR.html,
+        ...imagesSSR,
+    }
+
     const localId = `${edition}/${issueDate}`
     const key = localId
 
@@ -94,6 +130,7 @@ export const getIssueSummaryInternal = (
         name,
         date: issueDate,
         assets,
+        assetsSSR,
     }
 }
 
@@ -101,26 +138,20 @@ export const getIssueSummary = async (
     issuePublication: IssuePublicationIdentifier,
     bucket: Bucket,
 ): Promise<IssueSummary | undefined> => {
-    const publishedIssuePrefix = getPublishedId(issuePublication)
-    const Prefix = `zips/${publishedIssuePrefix}/`
-    const assetKeyList = await s3
-        .listObjectsV2({
-            Bucket: bucket.name,
-            Prefix,
-        })
-        .promise()
-
-    const assetKeys = oc(assetKeyList)
-        .Contents([])
-        .map(_ => _.Key)
-        .filter(notNull)
-
-    console.log(
-        `getIssueSummary, get assetKeyList from s3://${bucket.name}/${Prefix}`,
-        JSON.stringify(assetKeyList),
-    )
-
     const displayName = await getEditionDisplayName(issuePublication.edition)
+    const publishedIssuePrefix = getPublishedId(issuePublication)
 
-    return getIssueSummaryInternal(issuePublication, assetKeys, displayName)
+    const prefix = `zips/${publishedIssuePrefix}/`
+    const assetKeys = await getAssestKeysFromBucket(bucket, prefix)
+    const assetWithoutSSR = assetKeys.filter(key => key.indexOf('/ssr') == -1)
+
+    const prefixSSR = `zips/${publishedIssuePrefix}/ssr`
+    const assetKeysSSR = await getAssestKeysFromBucket(bucket, prefixSSR)
+
+    return getIssueSummaryInternal(
+        issuePublication,
+        assetWithoutSSR,
+        assetKeysSSR,
+        displayName,
+    )
 }

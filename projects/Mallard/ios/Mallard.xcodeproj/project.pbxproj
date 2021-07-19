@@ -33,29 +33,29 @@
 		BB77E8F846CDE9D32C493592 /* libPods-MallardTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2885A2F6E37B4C44D653BBC3 /* libPods-MallardTests.a */; };
 		C232E2BBBE624C1DB73FF340 /* GuardianTextSans-RegularIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B43BC33E44074221B5FE51A9 /* GuardianTextSans-RegularIt.ttf */; };
 		C51056C322D60C1700ED3078 /* crosswords.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C51056C222D60C1700ED3078 /* crosswords.bundle */; };
-		C549378022B149BB00B1D9A2 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		C549378122B149BB00B1D9A2 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		C549378222B149BB00B1D9A2 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		C549378322B149BB00B1D9A2 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		C549378422B149BB00B1D9A2 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		C549378522B149BB00B1D9A2 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		C549378622B149BB00B1D9A2 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		C549378722B149BB00B1D9A2 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		C549378822B149BB00B1D9A2 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		C549378922B149BB00B1D9A2 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		C549378A22B149BB00B1D9A2 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		C549378B22B149BB00B1D9A2 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		C549378C22B149BB00B1D9A2 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		C549378D22B149BB00B1D9A2 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		C549378E22B149BB00B1D9A2 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		C549378F22B149BB00B1D9A2 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		C549379022B149BB00B1D9A2 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		C549379122B149BB00B1D9A2 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		C549379222B149BB00B1D9A2 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		C549378022B149BB00B1D9A2 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		C549378122B149BB00B1D9A2 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		C549378222B149BB00B1D9A2 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		C549378322B149BB00B1D9A2 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		C549378422B149BB00B1D9A2 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		C549378522B149BB00B1D9A2 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		C549378622B149BB00B1D9A2 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		C549378722B149BB00B1D9A2 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		C549378822B149BB00B1D9A2 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		C549378922B149BB00B1D9A2 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		C549378A22B149BB00B1D9A2 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		C549378B22B149BB00B1D9A2 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		C549378C22B149BB00B1D9A2 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		C549378D22B149BB00B1D9A2 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		C549378E22B149BB00B1D9A2 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		C549378F22B149BB00B1D9A2 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		C549379022B149BB00B1D9A2 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		C549379122B149BB00B1D9A2 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		C549379222B149BB00B1D9A2 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		C549379322B149BB00B1D9A2 /* SpaceMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 95AD4DE12520484BA6D0363B /* SpaceMono-Regular.ttf */; };
-		C549379422B149BB00B1D9A2 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		C549379522B149BB00B1D9A2 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		C549379622B149BB00B1D9A2 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		C549379422B149BB00B1D9A2 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		C549379522B149BB00B1D9A2 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		C549379622B149BB00B1D9A2 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		C549379722B149BB00B1D9A2 /* GHGuardianHeadline-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49561E0DB7FA414FA55A9C83 /* GHGuardianHeadline-Black.ttf */; };
 		C549379822B149BB00B1D9A2 /* GHGuardianHeadline-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1DB496EF7E68447CA16BCCA0 /* GHGuardianHeadline-BlackItalic.ttf */; };
 		C549379922B149BB00B1D9A2 /* GHGuardianHeadline-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2C9D849C88374564AA777EF3 /* GHGuardianHeadline-Bold.ttf */; };
@@ -554,30 +554,30 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C549378022B149BB00B1D9A2 /* BuildFile in Resources */,
-				C549378122B149BB00B1D9A2 /* BuildFile in Resources */,
-				C549378222B149BB00B1D9A2 /* BuildFile in Resources */,
-				C549378322B149BB00B1D9A2 /* BuildFile in Resources */,
-				C549378422B149BB00B1D9A2 /* BuildFile in Resources */,
-				C549378522B149BB00B1D9A2 /* BuildFile in Resources */,
-				C549378622B149BB00B1D9A2 /* BuildFile in Resources */,
-				C549378722B149BB00B1D9A2 /* BuildFile in Resources */,
-				C549378822B149BB00B1D9A2 /* BuildFile in Resources */,
-				C549378922B149BB00B1D9A2 /* BuildFile in Resources */,
-				C549378A22B149BB00B1D9A2 /* BuildFile in Resources */,
+				C549378022B149BB00B1D9A2 /* (null) in Resources */,
+				C549378122B149BB00B1D9A2 /* (null) in Resources */,
+				C549378222B149BB00B1D9A2 /* (null) in Resources */,
+				C549378322B149BB00B1D9A2 /* (null) in Resources */,
+				C549378422B149BB00B1D9A2 /* (null) in Resources */,
+				C549378522B149BB00B1D9A2 /* (null) in Resources */,
+				C549378622B149BB00B1D9A2 /* (null) in Resources */,
+				C549378722B149BB00B1D9A2 /* (null) in Resources */,
+				C549378822B149BB00B1D9A2 /* (null) in Resources */,
+				C549378922B149BB00B1D9A2 /* (null) in Resources */,
+				C549378A22B149BB00B1D9A2 /* (null) in Resources */,
 				896089CE248679CF00DCBF7D /* GoogleService-Info.plist in Resources */,
-				C549378B22B149BB00B1D9A2 /* BuildFile in Resources */,
-				C549378C22B149BB00B1D9A2 /* BuildFile in Resources */,
-				C549378D22B149BB00B1D9A2 /* BuildFile in Resources */,
-				C549378E22B149BB00B1D9A2 /* BuildFile in Resources */,
-				C549378F22B149BB00B1D9A2 /* BuildFile in Resources */,
-				C549379022B149BB00B1D9A2 /* BuildFile in Resources */,
-				C549379122B149BB00B1D9A2 /* BuildFile in Resources */,
-				C549379222B149BB00B1D9A2 /* BuildFile in Resources */,
+				C549378B22B149BB00B1D9A2 /* (null) in Resources */,
+				C549378C22B149BB00B1D9A2 /* (null) in Resources */,
+				C549378D22B149BB00B1D9A2 /* (null) in Resources */,
+				C549378E22B149BB00B1D9A2 /* (null) in Resources */,
+				C549378F22B149BB00B1D9A2 /* (null) in Resources */,
+				C549379022B149BB00B1D9A2 /* (null) in Resources */,
+				C549379122B149BB00B1D9A2 /* (null) in Resources */,
+				C549379222B149BB00B1D9A2 /* (null) in Resources */,
 				C549379322B149BB00B1D9A2 /* SpaceMono-Regular.ttf in Resources */,
-				C549379422B149BB00B1D9A2 /* BuildFile in Resources */,
-				C549379522B149BB00B1D9A2 /* BuildFile in Resources */,
-				C549379622B149BB00B1D9A2 /* BuildFile in Resources */,
+				C549379422B149BB00B1D9A2 /* (null) in Resources */,
+				C549379522B149BB00B1D9A2 /* (null) in Resources */,
+				C549379622B149BB00B1D9A2 /* (null) in Resources */,
 				C549379722B149BB00B1D9A2 /* GHGuardianHeadline-Black.ttf in Resources */,
 				C549379822B149BB00B1D9A2 /* GHGuardianHeadline-BlackItalic.ttf in Resources */,
 				C549379922B149BB00B1D9A2 /* GHGuardianHeadline-Bold.ttf in Resources */,
@@ -953,7 +953,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = uk.co.guardian.gce;
 				PRODUCT_NAME = "Guardian Editions";
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore uk.co.guardian.gce";
+				PROVISIONING_PROFILE_SPECIFIER = "uk.co.guardian.gce AppStore";
 				SWIFT_OBJC_BRIDGING_HEADER = "Mallard-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

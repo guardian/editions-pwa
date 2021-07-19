@@ -214,11 +214,6 @@ export type CAPIArticle =
 export const imageSizes = ['phone', 'tablet', 'tabletL', 'tabletXL'] as const
 export type ImageSize = typeof imageSizes[number]
 
-export interface RenderedContent {
-    size: ImageSize
-    html: string
-}
-
 export const sizeDescriptions: { [k in ImageSize]: number } = {
     phone: 375,
     tablet: 740,
@@ -263,6 +258,13 @@ Don't really want to run this all the time, so it's calculated below.
     thumb: { phone: 158, tablet: 185, tabletL: 245, tabletXL: 285 },
     'thumb-large': { phone: 225, tablet: 385, tabletL: 510, tabletXL: 605 },
 }
+
+export interface RenderedArticle {
+    success: boolean
+    message: string
+    internalPageCode: number
+    body: string
+}
 export interface IssueIdentifier {
     edition: EditionId
     issueDate: string
@@ -290,6 +292,9 @@ export interface IssueSummary extends WithKey, IssueCompositeKey {
     assets?: {
         [P in ImageSize]?: string
     } & { data: string }
+    assetsSSR?: {
+        [P in ImageSize]?: string
+    } & { html: string } & { data: string }
 }
 
 export interface Issue extends IssueSummary, WithKey {
@@ -458,19 +463,29 @@ export const issueDir = (issueId: string) => {
 
 export const issuePath = (issue: string) => `${issueDir(issue)}/issue`
 
-// const issuePath = (issueId: string) => `${issueDir(issueId)}issue`
 export const frontPath = (issue: string, frontId: string) =>
     `${issueDir(issue)}/front/${frontId}`
 
-// These have issueids in the path, but you'll need to change the archiver if you want to use them.
+export const htmlDirPath = (issue: string) => `${issueDir(issue)}/html`
 
-export const mediaDir = (issue: string, size: ImageSize) =>
-    `${issueDir(issue)}/media/${size}/`
+export const htmlRootPath = (issue: string) => `${issueDir(issue)}/html`
+
+export const htmlPath = (issue: string, internalPageCode: number) =>
+    `${htmlRootPath(issue)}/${internalPageCode}.html`
+
+export const mediaDir = (issue: string, size?: ImageSize) => {
+    // `size` only used to contstruct web url
+    if (size) {
+        return `${issueDir(issue)}/media/${size}/` // used by old articles and its clients
+    } else {
+        return `${issueDir(issue)}/media/images/` // used by SSR
+    }
+}
 
 export const mediaPath = (
     issue: string,
-    size: ImageSize,
     { source, path }: Image,
+    size?: ImageSize,
 ) => `${mediaDir(issue, size)}${source}/${path}`
 
 export const issueSummaryPath = (edition: string) => `${edition}/issues`
@@ -500,24 +515,28 @@ export const imageRoles = [
     'halfWidth',
 ] as const
 export type ImageRole = typeof imageRoles[number]
-
 export interface ImageDeviceUses {
     mobile: ImageUse
     tablet: ImageUse
 }
-
 export interface TrailImage extends Image {
     use: ImageDeviceUses
 }
 
-export const thumbsDir = (issue: string, size: ImageSize) =>
-    `${issueDir(issue)}/thumbs/${size}/`
+export const thumbsDir = (issue: string, size?: ImageSize) => {
+    // `size` only used to contstruct web url
+    if (size) {
+        return `${issueDir(issue)}/thumbs/${size}/`
+    } else {
+        return `${issueDir(issue)}/thumbs/images/`
+    }
+}
 
 export const thumbsPath = (
     issue: string,
-    size: ImageSize,
     image: Image,
     use: ImageThumbnailUse,
+    size?: ImageSize,
 ) => `${thumbsDir(issue, size)}${use}/${image.source}/${image.path}`
 
 export const getImageQueryString = (image: Image) =>
@@ -525,14 +544,14 @@ export const getImageQueryString = (image: Image) =>
 
 export const imagePath = (
     issue: string,
-    size: ImageSize,
     image: Image,
     use: ImageUse = 'full-size',
+    size?: ImageSize,
 ) => {
     const baseUrl =
         use == 'full-size'
-            ? mediaPath(issue, size, image)
-            : thumbsPath(issue, size, image, use)
+            ? mediaPath(issue, image, size)
+            : thumbsPath(issue, image, use, size)
     return `${baseUrl}${getImageQueryString(image)}`
 }
 

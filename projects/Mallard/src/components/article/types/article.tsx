@@ -17,10 +17,13 @@ import type {
 	Image,
 	PictureArticle,
 } from 'src/common';
-import { defaultSettings } from 'src/helpers/settings/defaults';
+import {
+	defaultSettings,
+	htmlEndpoint,
+	isPreview,
+} from 'src/helpers/settings/defaults';
 import { parsePing } from 'src/helpers/webview';
 import { useArticle } from 'src/hooks/use-article';
-import { useIsAppsRendering } from 'src/hooks/use-config-provider';
 import { selectImagePath } from 'src/hooks/use-image-paths';
 import { useIssueSummary } from 'src/hooks/use-issue-summary';
 import { useApiUrl } from 'src/hooks/use-settings';
@@ -50,6 +53,7 @@ const styles = StyleSheet.create({
 	webview: {
 		flex: 1,
 		overflow: 'hidden',
+		marginTop: 52,
 		/*
         The below line fixes crashes on Android
         https://github.com/react-native-community/react-native-webview/issues/429
@@ -164,7 +168,6 @@ const Article = ({
 	path,
 	onShouldShowHeaderChange,
 	shouldShowHeader,
-	topPadding,
 	onIsAtTopChange,
 	origin,
 }: {
@@ -173,7 +176,6 @@ const Article = ({
 	origin: IssueOrigin;
 } & HeaderControlProps) => {
 	const navigation = useNavigation();
-	const [, { type }] = useArticle();
 	const ref = useRef<WebView | null>(null);
 	const [imagePaths, setImagePaths] = useState(['']);
 	const [lightboxImages, setLightboxImages] = useState<CreditedImage[]>();
@@ -188,6 +190,9 @@ const Article = ({
 	const [, { pillar }] = useArticle();
 	const apiUrl = useApiUrl() ?? '';
 	const { issueId } = useIssueSummary();
+	const { front, publishedIssueId } = path;
+	const htmlFolderInS3 = htmlEndpoint(apiUrl, publishedIssueId);
+	const previewParam = isPreview(apiUrl) ? `?frontId=${front}` : '';
 
 	// if webUrl is undefined then we attempt to fetch a url to use for sharing
 	const [shareUrl, setShareUrl] = useState(article.webUrl);
@@ -255,7 +260,6 @@ const Article = ({
 		article.key,
 		shareUrlFetchEnabled,
 	]);
-	const { isAppsRendering } = useIsAppsRendering();
 
 	const handleShare = (shareUrl: string) => {
 		if (Platform.OS === 'ios') {
@@ -280,19 +284,7 @@ const Article = ({
 	};
 
 	const handleLightbox = (parsed: LightboxMessage) => {
-		let index = parsed.index;
-
-		//following if statement can be removed once ER is in production
-		if (
-			!isAppsRendering &&
-			article.type !== 'gallery' &&
-			article.image &&
-			!parsed.isMainImage &&
-			lightboxImages &&
-			lightboxImages.length > 1
-		) {
-			index++;
-		}
+		const index = parsed.index;
 
 		navigation.navigate(RouteNames.Lightbox, {
 			images: lightboxImages,
@@ -330,26 +322,23 @@ const Article = ({
 	return (
 		<Fader>
 			<WebviewWithArticle
-				type={type}
 				article={article}
 				path={path}
+				previewParam={previewParam}
+				htmlFolderInS3={htmlFolderInS3}
 				scrollEnabled={true}
-				useWebKit={false}
 				allowsInlineMediaPlayback={true} // need this along with `mediaPlaybackRequiresUserAction = false` to ensure videos in twitter embeds play on iOS
 				mediaPlaybackRequiresUserAction={false}
-				style={[
-					styles.webview,
-					isAppsRendering ? { marginTop: 52 } : null,
-				]}
+				style={[styles.webview]}
 				_ref={(r) => {
 					ref.current = r;
 				}}
-				topPadding={topPadding}
 				origin={origin}
 				injectedJavaScript={pingEditionsRenderingJsString(platform)}
 				onMessage={(event) => {
 					handlePing(event.nativeEvent.data);
 				}}
+				decelerationRate={'normal'}
 			/>
 		</Fader>
 	);

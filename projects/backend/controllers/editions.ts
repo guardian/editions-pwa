@@ -135,11 +135,11 @@ const uploadEditionsList = async (
 ) => {
     // write to s3 bucket for both proof/store(published)
     await s3Put(
-        { key: 'editions', bucket: getEditionsBucket('proof') },
+        { key: 'editions', bucket: getEditionsBucket('proofed') },
         JSON.stringify(proofList),
     )
     await s3Put(
-        { key: 'editions', bucket: getEditionsBucket('store') },
+        { key: 'editions', bucket: getEditionsBucket('published') },
         JSON.stringify(publishedList),
     )
 }
@@ -152,13 +152,13 @@ export const editionsControllerPost = async (req: Request, res: Response) => {
             const filteredProofList = await filterEditionsList(
                 list,
                 s3EditionClient(),
-                getEditionsBucket('proof'),
+                getEditionsBucket('proofed'),
             )
 
             const filteredPublishedList = await filterEditionsList(
                 list,
                 s3EditionClient(),
-                getEditionsBucket('store'),
+                getEditionsBucket('published'),
             )
 
             await uploadEditionsList(filteredProofList, filteredPublishedList)

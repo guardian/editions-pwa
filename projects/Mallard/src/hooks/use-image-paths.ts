@@ -3,12 +3,7 @@ import { Platform } from 'react-native';
 import RNFS from 'react-native-fs';
 import { imageForScreenSize } from 'src/helpers/screen';
 import { APIPaths, FSPaths } from 'src/paths';
-import type {
-	Image,
-	ImageSize,
-	ImageUse,
-	Issue,
-} from '../../../Apps/common/src';
+import type { Image, ImageUse, Issue } from '../../../Apps/common/src';
 import { useIssueSummary } from './use-issue-summary';
 import { useApiUrl } from './use-settings';
 
@@ -21,9 +16,8 @@ export type GetImagePath = (
 const getFsPath = (
 	localIssueId: Issue['localId'],
 	image: Image,
-	size: ImageSize,
 	use: ImageUse,
-) => FSPaths.image(localIssueId, size, image, use);
+) => FSPaths.image(localIssueId, image, use);
 
 export const selectImagePath = async (
 	apiUrl: string,
@@ -35,12 +29,12 @@ export const selectImagePath = async (
 	const imageSize = await imageForScreenSize();
 	const api = `${apiUrl}${APIPaths.image(
 		publishedIssueId,
-		imageSize,
 		image,
 		use,
+		imageSize,
 	)}`;
 
-	const fs = getFsPath(localIssueId, image, imageSize, use);
+	const fs = getFsPath(localIssueId, image, use);
 	const fsExists = await RNFS.exists(fs);
 
 	const fsUpdatedPath = Platform.OS === 'android' ? 'file:///' + fs : fs;

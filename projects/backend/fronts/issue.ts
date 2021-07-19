@@ -52,3 +52,13 @@ export interface PublishedCardImage {
     mobile: PublishedImage
     tablet: PublishedImage
 }
+
+export enum Theme {
+    News = 0,
+    Opinion = 1,
+    Sport = 2,
+    Culture = 3,
+    Lifestyle = 4,
+    SpecialReport = 5,
+    Labs = 6,
+}

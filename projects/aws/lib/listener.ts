@@ -5,6 +5,9 @@ import { IBucket } from '@aws-cdk/aws-s3'
 import { proofArchiverStepFunction } from './proof-step-function'
 import { publishArchiverStepFunction } from './publish-step-function'
 import iam = require('@aws-cdk/aws-iam')
+import { LambdaFunction } from '@aws-cdk/aws-events-targets'
+import { Rule } from '@aws-cdk/aws-events'
+import { GuStack } from '@guardian/cdk/lib/constructs/core/stack'
 
 export const s3EventListenerFunction = (
     scope: Construct,
@@ -22,12 +25,12 @@ export const s3EventListenerFunction = (
         'EditionsProofArchiverS3EventListener',
         {
             functionName: `editions-proof-archiver-s3-event-listener-${stage}`,
-            runtime: lambda.Runtime.NODEJS_10_X,
+            runtime: lambda.Runtime.NODEJS_14_X,
             timeout: Duration.minutes(5),
             memorySize: 256,
             code: Code.bucket(
                 deployBucket,
-                `${stack}/${stage}/archiver/archiver.zip`,
+                `${stack}/${stage}/editions-archiver/editions-archiver.zip`,
             ),
             handler: 'index.invoke',
             environment: {
@@ -46,7 +49,7 @@ export const s3EventListenerFunction = (
 }
 
 export const constructTriggeredStepFunction = (
-    scope: Construct,
+    scope: GuStack,
     stack: string,
     stage: string,
     deployBucket: IBucket,
@@ -108,6 +111,23 @@ export const constructTriggeredStepFunction = (
         frontsRoleARN,
         backendURL,
     )
+
+    // Read events from cloudwatch event bus and send to listener lambda
+    new Rule(scope, 'cmsFronts-editions-events', {
+        eventPattern: {
+            source: ['aws.s3'],
+            detailType: ['AWS API Call via CloudTrail'],
+            account: [cmsFrontsAccountIdParameter],
+            detail: {
+                eventSource: ['s3.amazonaws.com'],
+                eventName: ['PutObject'],
+                requestParameters: {
+                    bucketName: [publishedBucket.bucketName],
+                },
+            },
+        },
+        targets: [new LambdaFunction(archiveS3EventListener)],
+    })
 
     new CfnOutput(scope, 'archiver-s3-event-listener-arn', {
         description: 'ARN for proof-archiver state machine trigger lambda',

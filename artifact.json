@@ -3,12 +3,12 @@
     "vcsURL": "https://github.com/guardian/editions",
     "actions": [
         {
-            "action": "backend",
+            "action": "editions-backend",
             "path": "projects/backend/dist",
             "compress": "zip"
         },
         {
-            "action": "archiver",
+            "action": "editions-archiver",
             "path": "projects/archiver/dist",
             "compress": "zip"
         },
@@ -23,7 +23,7 @@
             "compress": false
         },
         {
-            "action": "logging",
+            "action": "editions-logging",
             "path": "projects/logging/dist",
             "compress": "zip"
         }

@@ -151,7 +151,6 @@ export const Settings = {
 	termsAndConditions: 'Terms and conditions',
 	version: 'Version',
 	betaProgrammeFAQs: 'Beta Programme FAQs',
-	isAppsRendering: 'Show Articles from Editions Rendering',
 };
 
 export const ManageDownloads = {

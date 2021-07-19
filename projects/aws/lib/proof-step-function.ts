@@ -1,11 +1,11 @@
 import * as iam from '@aws-cdk/aws-iam'
 import * as sfn from '@aws-cdk/aws-stepfunctions'
-import * as cdk from '@aws-cdk/core'
 import { Duration } from '@aws-cdk/core'
+import { GuStack } from '@guardian/cdk/lib/constructs/core/stack'
 import { ProofStepFunctionProps, proofTask } from './constructs'
 
 export const proofArchiverStepFunction = (
-    scope: cdk.Construct,
+    scope: GuStack,
     {
         stack,
         stage,
@@ -82,11 +82,14 @@ export const proofArchiverStepFunction = (
 
     indexerProof.task.next(new sfn.Succeed(scope, 'successfully-archived'))
 
-    const stateMachine = new sfn.StateMachine(scope, 'Archiver State Machine', {
-        stateMachineName: `Editions-Archiver-Proof-State-Machine-${stage}`,
-        definition: issue.task,
-        timeout: Duration.minutes(10),
-    })
+    const stateMachine = new sfn.StateMachine(
+        scope,
+        'Archiver State Machine proof',
+        {
+            definition: issue.task,
+            timeout: Duration.minutes(10),
+        },
+    )
 
     return stateMachine
 }
